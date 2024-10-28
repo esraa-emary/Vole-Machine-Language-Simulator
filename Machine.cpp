@@ -8,10 +8,15 @@
 
 using namespace std;
 
+int Machine::Hexa_To_Decimal(string Hex_Number) {
+    int decimalValue = stoi(Hex_Number, nullptr, 16);
+    return decimalValue;
+}
+
 void Machine::Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem) {
-    int index = stoi(address4);
-    int content = mem.getMemory(index);
-    reg.setRegister(address1,to_string(content));
+    int index = Hexa_To_Decimal(address4);
+    string content = mem.getMemory(index);
+    reg.setRegister(address1,content);
 }
 
 void Machine::Load_To_Register(string address1, string value, Register &reg) {
@@ -20,27 +25,13 @@ void Machine::Load_To_Register(string address1, string value, Register &reg) {
 
 void Machine::Store(string address1, string address4, Register &reg, Memory &mem) {
     string content = reg.getRegister(address1);
-    int address = stoi(address4), value = stoi(content);
-    mem.setMemory(address, value);
+    int address = Hexa_To_Decimal(address4);
+    mem.setMemory(address, content);
 }
 
 void Machine::Move(string address2, string address3, Register &reg) {
     string content = reg.getRegister(address2);
     reg.setRegister(address3, content);
-}
-
-void Machine::OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
-    int valReg1 = stoi(reg.getRegister(address2));
-    int valReg2 = stoi(reg.getRegister(address3));
-    int result = valReg1 | valReg2;
-    reg.setRegister(address1, to_string(result));
-}
-
-void Machine::AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
-    int valReg1 = stoi(reg.getRegister(address2));
-    int valReg2 = stoi(reg.getRegister(address3));
-    int result = valReg1 & valReg2;
-    reg.setRegister(address1, to_string(result));
 }
 
 void Machine::Run_Instruction() {
@@ -68,9 +59,15 @@ void Machine::Run_Instruction() {
         } else if (instructions[i][0] == '6') {
 
         } else if (instructions[i][0] == '7') {
-            OrBitwiseOperation(address1, address2, address3, reg);
+            int valReg1 = stoi(reg.getRegister(address2));
+            int valReg2 = stoi(reg.getRegister(address3));
+            int result = valReg1 | valReg2;
+            reg.setRegister(address1, to_string(result));
         } else if (instructions[i][0] == '8') {
-            AndBitwiseOperation(address1, address2, address3, reg);
+            int valReg1 = stoi(reg.getRegister(address2));
+            int valReg2 = stoi(reg.getRegister(address3));
+            int result = valReg1 & valReg2;
+            reg.setRegister(address1, to_string(result));
         } else if (instructions[i][0] == '9') {
 
         } else if (instructions[i][0] == 'A') {
