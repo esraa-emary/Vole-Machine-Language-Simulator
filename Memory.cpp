@@ -1,4 +1,5 @@
 #include "Memory.h"
+#include <bits/stdc++.h>
 using namespace std;
 // Constructor to initialize the array with 0 in all cells
 Memory::Memory() {
