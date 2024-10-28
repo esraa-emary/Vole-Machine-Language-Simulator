@@ -9,8 +9,9 @@
 using namespace std;
 
 void Machine::Run_Instruction() {
+    Register reg;
     Instructions inst;
-    vector<string> instructions = inst.Read_From_File();
+    vector<string> instructions = inst.Get_Instructions();
     for (int i = 0; i < instructions.size(); ++i) {
         if (instructions[0] == "1") {
 
@@ -38,6 +39,7 @@ void Machine::Run_Instruction() {
 
         }
     }
+    reg.displayRegister();
 }
 
 
