@@ -1,16 +1,14 @@
 #include <bits/stdc++.h>
 #include "Machine.h"
+#include "Instructions.h"
+#include "Memory.h"
+#include "Register.h"
 
 using namespace std;
 
 int main() {
-//    Instructions inst;
-//    vector<string> instructions = inst.Read_From_File();
-//
-//    cout << "Instructions read from file:\n";
-//    for (const string &instr: instructions) {
-//        cout << instr << endl;
-//    }
-
+    cout << "Welcome To Our Vole Machine Simulator Program!\n";
+    Machine m;
+    m.Run_Instruction();
     return 0;
 }
