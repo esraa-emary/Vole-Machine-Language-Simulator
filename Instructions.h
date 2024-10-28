@@ -9,6 +9,7 @@ private:
     vector<string> instruct;
 public:
     void Read_From_File();
+    vector<string> Get_Instructions();
 };
 
 #endif //INSTRUCTIONS_H
