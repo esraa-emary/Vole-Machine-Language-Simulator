@@ -2,9 +2,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<string> Instructions::Read_From_File() {
+void Instructions::Read_From_File() {
     string fileName, fileContent, pos = "";
-    bool found = false;
     stringstream content;
     vector<string> instructions;
     cout << "Please enter file name:";
@@ -36,5 +35,5 @@ vector<string> Instructions::Read_From_File() {
             pos = "";
         }
     }
-    return instructions;
+    instruct = instructions;
 }
