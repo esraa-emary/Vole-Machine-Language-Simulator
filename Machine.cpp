@@ -34,6 +34,19 @@ void Machine::Move(string address2, string address3, Register &reg) {
     reg.setRegister(address3, content);
 }
 
+void Machine::OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
+    int valReg1 = stoi(reg.getRegister(address2));
+    int valReg2 = stoi(reg.getRegister(address3));
+    int result = valReg1 | valReg2;
+    reg.setRegister(address1, to_string(result));
+}
+void Machine::AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
+    int valReg1 = stoi(reg.getRegister(address2));
+    int valReg2 = stoi(reg.getRegister(address3));
+    int result = valReg1 & valReg2;
+    reg.setRegister(address1, to_string(result));
+}
+
 void Machine::Run_Instruction() {
     Memory mem;
     Register reg;
@@ -59,15 +72,9 @@ void Machine::Run_Instruction() {
         } else if (instructions[i][0] == '6') {
 
         } else if (instructions[i][0] == '7') {
-            int valReg1 = stoi(reg.getRegister(address2));
-            int valReg2 = stoi(reg.getRegister(address3));
-            int result = valReg1 | valReg2;
-            reg.setRegister(address1, to_string(result));
+            OrBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '8') {
-            int valReg1 = stoi(reg.getRegister(address2));
-            int valReg2 = stoi(reg.getRegister(address3));
-            int result = valReg1 & valReg2;
-            reg.setRegister(address1, to_string(result));
+            AndBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '9') {
 
         } else if (instructions[i][0] == 'A') {
