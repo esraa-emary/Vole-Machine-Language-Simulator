@@ -8,8 +8,7 @@ class Instructions {
 private:
     vector<string> instruct;
 public:
-    vector<string> Read_From_File();
-    void Decode();
+    void Read_From_File();
 };
 
 #endif //INSTRUCTIONS_H
