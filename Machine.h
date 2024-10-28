@@ -52,7 +52,7 @@ private:
 public:
     Machine();
     string Get_Next_Instruction();
-    void Run_pInstruction();
+    void Run_Instruction();
 };
 
 #endif // MACHINE_H
