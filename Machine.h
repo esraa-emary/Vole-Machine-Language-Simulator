@@ -7,11 +7,35 @@ using namespace std;
 
 // =========================== Memory ===========================
 
+class Memory {
+private:
+    std::array<int, 256> memory;
 
+public:
+    Memory();
+
+    int getMemory(int address);
+    void setMemory(int address, int value);
+    void printMemory();
+};
 
 // =========================== Register ===========================
 
+class Register {
+private:
+    vector<string> registers = vector<string>(16);
 
+public:
+    Register();
+
+    void setRegister(const string &Address, const string &Value);
+
+    string getRegister(const string &location);
+
+    void displayRegister();
+
+    void clearRegister();
+};
 
 // =========================== Instructions ===========================
 
@@ -28,8 +52,8 @@ public:
 
 class Machine {
 private:
-//    Register processor;
-//    Memory storage;
+    Register processor;
+    Memory storage;
     Instructions input;
     int program_count;
 public:
@@ -44,4 +68,4 @@ public:
     void Disply_Register();
 };
 
-#endif // CPU_H
+#endif // MACHINE_H
