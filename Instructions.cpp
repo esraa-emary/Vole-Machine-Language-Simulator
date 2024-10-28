@@ -2,6 +2,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+vector<string> Instructions::Get_Instructions() {
+    return instruct;
+}
+
 void Instructions::Read_From_File() {
     string fileName, fileContent, pos = "";
     stringstream content;
