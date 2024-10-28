@@ -51,7 +51,6 @@ private:
     int program_count;
 public:
     Machine();
-
     string Get_Next_Instruction();
     void Run_pInstruction();
 };
