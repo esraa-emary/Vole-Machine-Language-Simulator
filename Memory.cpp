@@ -17,7 +17,7 @@ int Memory::getMemory(int address) {
 }
 
 // Setter to write in the memory
-void Memory::setMemory(int address, int value) {
+void Memory::setMemory(int address, string value) {
     if (address < 0 || address >= 256) {
         throw out_of_range("Memory write error: Address out of range");
     }
