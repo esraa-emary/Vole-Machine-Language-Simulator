@@ -11,6 +11,7 @@ using namespace std;
 void Machine::Run_Instruction() {
     Register reg;
     Instructions inst;
+    inst.Read_From_File();
     vector<string> instructions = inst.Get_Instructions();
     for (int i = 0; i < instructions.size(); ++i) {
         if (instructions[0] == "1") {
