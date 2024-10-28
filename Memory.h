@@ -6,13 +6,12 @@ using namespace std;
 
 class Memory {
 private:
-    std::array<int, 256> memory;
+    std::array<string , 256> memory;
 
 public:
-    Memory();                           
-
-    int getMemory(int address);         
-    void setMemory(int address, int value); 
+    Memory();
+    string getMemory(int address);
+    void setMemory(int address, string value);
     void printMemory();                
 };
 
