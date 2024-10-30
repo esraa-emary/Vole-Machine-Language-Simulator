@@ -3,7 +3,8 @@
 using namespace std;
 
 vector<string> Instructions::Get_Instructions() {
-    return instruct;
+    vector<string> content = instruct;
+    return content;
 }
 
 void Instructions::Read_From_File() {
@@ -29,15 +30,8 @@ void Instructions::Read_From_File() {
         fileContent.erase(remove(fileContent.begin(), fileContent.end(), '\n'), fileContent.end());
         fileContent.erase(remove(fileContent.begin(), fileContent.end(), ' '), fileContent.end());
     }
-    for (int i = 0; i < fileContent.size(); ++i) {
-        if (fileContent[i + 1] == 'x') {
-            pos += fileContent[i + 2];
-            i += 2;
-        } else {
-            pos += fileContent[i];
-            instructions.push_back(pos);
-            pos = "";
-        }
+    for (int i = 0; i < fileContent.size(); i+=4) {
+        instructions.push_back(fileContent.substr(i,4));
     }
     instruct = instructions;
 }
