@@ -1,7 +1,7 @@
 # Vole Machine Language Simulator
 
 ## Description:
-### In this machine, data is taken as a file of space separated chars representing the instructions, e.g. 10FF, then apply instructions(Machine Language).
+#### In this machine, data is taken as a file of space separated chars representing the instructions, e.g. 10FF, then apply instructions(Machine Language).
 
 ## Machine Components:
 #### Register: 16 register storage space for units of memory that are used to transfer data for immediate use.
