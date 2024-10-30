@@ -13,6 +13,20 @@ int Machine::Hexa_To_Decimal(string Hex_Number) {
     return decimalValue;
 }
 
+string Machine::Decimal_To_Hexa (int Dec_Number) {
+    string hexa;
+    while (Dec_Number){
+        int reminder = Dec_Number % 16;
+
+        if (reminder < 10) hexa.push_back(reminder + '0');
+        else hexa.push_back(reminder - 10 + 'A');
+
+        Dec_Number /= 16;
+    }
+    reverse(hexa.begin(), hexa.end());
+    return hexa;
+}
+
 void Machine::Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem) {
     int index = Hexa_To_Decimal(address4);
     string content = mem.getMemory(index);
@@ -35,16 +49,17 @@ void Machine::Move(string address2, string address3, Register &reg) {
 }
 
 void Machine::OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
-    int valReg1 = stoi(reg.getRegister(address2));
-    int valReg2 = stoi(reg.getRegister(address3));
+    int valReg1 = Hexa_To_Decimal(reg.getRegister(address2));
+    int valReg2 = Hexa_To_Decimal(reg.getRegister(address3));
     int result = valReg1 | valReg2;
-    reg.setRegister(address1, to_string(result));
+    reg.setRegister(address1, Decimal_To_Hexa(result));
 }
+
 void Machine::AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
-    int valReg1 = stoi(reg.getRegister(address2));
-    int valReg2 = stoi(reg.getRegister(address3));
+    int valReg1 = Hexa_To_Decimal(reg.getRegister(address2));
+    int valReg2 = Hexa_To_Decimal(reg.getRegister(address3));
     int result = valReg1 & valReg2;
-    reg.setRegister(address1, to_string(result));
+    reg.setRegister(address1, Decimal_To_Hexa(result));
 }
 
 void Machine::Run_Instruction() {
