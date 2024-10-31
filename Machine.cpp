@@ -45,6 +45,9 @@ void Machine::Run_Instruction() {
         } else if (instructions[i][0] == 'C') {
 
         }
+          else if (instructions[i][0] == 'D') {
+             
+        }
     }
     reg.displayRegister();
     mem.printMemory();
