@@ -202,12 +202,17 @@ void Instructions::AndBitwiseOperation(string& address1, string& address2, strin
     reg.setRegister(address1, Decimal_To_Hexa(result));
 }
 
-//void Instructions::exclusiveOr(int R, int S, int T) {
-//    int result = reg.getRegister(to_string(S)) ^ reg.getRegister(to_string(T));
-//    reg.setRegister(to_string(R), to_string(result));
-//
-//    cout << "Performed XOR between registers " << S << " and " << T << ". Result stored in register " << R << ": " << result << endl;
-//}
+void Instructions::exclusiveOr(const string& R, const string& S, const string& T) {
+    int regSValue = stoi(reg.getRegister(S), nullptr, 16);
+    int regTValue = stoi(reg.getRegister(T), nullptr, 16);
+    int result = regSValue ^ regTValue;
+    // Convert the result back to a hexadecimal string and store it in register R
+    stringstream stream;
+    stream << hex << result;
+    string resultHex = stream.str();
+    reg.setRegister(R, resultHex);
+    cout << "Performed XOR between registers " << S << " and " << T << ". Result stored in register " << R << ": " << resultHex << endl;
+}
 
 void Instructions::rotateRight(const string& R, int X) {
     int value = stoi(reg.getRegister(R), nullptr, 16);
