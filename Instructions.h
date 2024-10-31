@@ -14,6 +14,7 @@ private:
     int programCounter = 0;
     void setProgramCounter(int address) { programCounter = address; }
 public:
+    Instructions(Register& reg) : reg(reg) {}
     void Read_From_File();
     vector<string> Get_Instructions();
     void Move(string address1, string address2, Register &reg);
@@ -31,10 +32,10 @@ public:
     void OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
     void AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
     void halt();
-    void conditionalJumpEqual(int R, int XY);
-    void rotateRight(int R, int X);
+    void rotateRight(const string& R, int X);
+    void conditionalJump(const string& R, int XY);
     void exclusiveOr(int R, int S, int T);
-    void conditionalJumpGreater(int R, int XY);
+    void conditionalJumpGreater(const string& R, int XY);
 };
 
 #endif //INSTRUCTIONS_H
