@@ -181,7 +181,7 @@ void Instructions::AddingTwoComplement(string& address1, string& address2, strin
 
     if (valReg1 > 127) {valReg1 -= 256;}
     if (valReg2 > 127) {valReg2 -= 256;}
-    
+
     string binary1 = decimalToBinary(valReg1);
     string binary2 = decimalToBinary(valReg2);
     string result = AddingBinaryNumbers(binary1, binary2);
@@ -202,15 +202,15 @@ void Instructions::AndBitwiseOperation(string& address1, string& address2, strin
     reg.setRegister(address1, Decimal_To_Hexa(result));
 }
 
-void Instructions::exclusiveOr(int R, int S, int T) {
-   int result = reg.getRegister(S) ^ reg.getRegister(T); 
-    reg.setRegister(R, result);
-
-    cout << "Performed XOR between registers " << S << " and " << T << ". Result stored in register " << R << ": " << result << endl;
-}
+//void Instructions::exclusiveOr(int R, int S, int T) {
+//    int result = reg.getRegister(to_string(S)) ^ reg.getRegister(to_string(T));
+//    reg.setRegister(to_string(R), to_string(result));
+//
+//    cout << "Performed XOR between registers " << S << " and " << T << ". Result stored in register " << R << ": " << result << endl;
+//}
 
 void Instructions::rotateRight(const string& R, int X) {
-    int value = stoi(reg.getRegister(R), nullptr, 16);  
+    int value = stoi(reg.getRegister(R), nullptr, 16);
     int rotatedValue = (value >> X) | (value << (32 - X));
     stringstream stream;
     stream << std::hex << rotatedValue;
