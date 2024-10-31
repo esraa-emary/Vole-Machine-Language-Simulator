@@ -37,15 +37,16 @@ void Machine::Run_Instruction() {
             inst.AndBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '9') {
 
-        } else if (instructions[i][0] == 'A') {
-            inst.rotateRight(R, X);
-        } else if (instructions[i][0] == 'B') {
-            inst.conditionalJump( R, XY);
-        } else if (instructions[i][0] == 'C') {
-            inst.halt();
-        }else if (instructions[i][0] == 'D') {
-            inst.conditionalJumpGreater( R, XY);
         }
+//        } else if (instructions[i][0] == 'A') {
+//            inst.rotateRight(const string& R, int X);
+//        } else if (instructions[i][0] == 'B') {
+//            inst.conditionalJump(const string& R, int XY);
+//        } else if (instructions[i][0] == 'C') {
+//            inst.halt();
+//        }else if (instructions[i][0] == 'D') {
+//            inst.conditionalJumpGreater(const string& R, int XY);
+//        }
         machineMemory = mem;
         machineRegister = reg;
     }
