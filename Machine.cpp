@@ -4,7 +4,6 @@
 #include "Memory.h"
 #include "Register.h"
 #include "Instructions.h"
-#include <fstream>
 using namespace std;
 
 
@@ -44,11 +43,18 @@ void Machine::Run_Instruction() {
 
         } else if (instructions[i][0] == 'C') {
 
+        }else if (instructions[i][0] == 'D') {
+
         }
-          else if (instructions[i][0] == 'D') {
-             
-        }
+        machineMemory = mem;
+        machineRegister = reg;
     }
-    reg.displayRegister();
-    mem.printMemory();
+}
+
+void Machine::getMemory() {
+    machineMemory.printMemory();
+}
+
+void Machine::getRegister() {
+    machineRegister.displayRegister();
 }
