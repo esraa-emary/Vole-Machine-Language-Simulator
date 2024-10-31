@@ -209,16 +209,20 @@ void Instructions::exclusiveOr(int R, int S, int T) {
     cout << "Performed XOR between registers " << S << " and " << T << ". Result stored in register " << R << ": " << result << endl;
 }
 
-void Instructions::rotateRight(int R, int X) {
-    int value = getRegister(R);
+void Instructions::rotateRight(const string& R, int X) {
+    int value = stoi(reg.getRegister(R), nullptr, 16);  
     int rotatedValue = (value >> X) | (value << (32 - X));
-    setRegister(R, rotatedValue);
+    stringstream stream;
+    stream << std::hex << rotatedValue;
+    string rotatedHex = stream.str();
 
-    cout << "Rotated register " << R << " to the right by " << X << " bits. New value: " << rotatedValue << endl;
+    reg.setRegister(R, rotatedHex);
+
+    out << "Rotated register " << R << " to the right by " << X << " bits. New value: " << rotatedHex << endl;
 }
 
-void Instructions::conditionalJump(int R, int XY) {
-    if (getRegister(R) == getRegister(0)) {
+void Instructions::conditionalJump(const string& R, int XY) {
+    if (reg.getRegister(R) == reg.getRegister("0")) {
         setProgramCounter(XY);
         cout << "Jumping to address " << XY << " because register " << R << " equals register 0" << endl;
     } else {
@@ -231,9 +235,9 @@ void Instructions::halt() {
     cout << "Execution halted." << endl;
 }
 
-void Instructions::conditionalJumpGreater(int R, int XY) {
-    int regRValue = getRegister(R);
-    int reg0Value = getRegister(0);
+void Instructions::conditionalJumpGreater(const string& R, int XY) {
+    int regRValue = stoi(reg.getRegister(R), nullptr, 16);
+    int reg0Value = stoi(reg.getRegister("0"), nullptr, 16);
 
     if (regRValue > reg0Value) {
         setProgramCounter(XY);
