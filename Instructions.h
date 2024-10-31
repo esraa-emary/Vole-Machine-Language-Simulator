@@ -2,6 +2,8 @@
 #define INSTRUCTIONS_H
 
 #include <bits/stdc++.h>
+#include "Register.h"
+#include "Memory.h"
 using namespace std;
 
 class Instructions {
@@ -10,6 +12,10 @@ private:
 public:
     void Read_From_File();
     vector<string> Get_Instructions();
+    void Move(string address1, string address2, Register &reg);
+    void Load_To_Register(string address1, string value, Register &reg);
+    void Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem);
+    void Store(string address1, string address2, Register & reg, Memory & mem);
     int Hexa_To_Decimal(string Hex_Number);
     string Decimal_To_Hexa (int Dec_Number);
     string OneComplement(string binary);
