@@ -13,7 +13,6 @@ public:
     void setRegister(const string& Address, const string& Value);
     string getRegister(const string& location);
     void displayRegister();
-    void clearRegister();
 };
 
 #endif //ASSIGNMENT_1_TASK_4_REGISTER_H
