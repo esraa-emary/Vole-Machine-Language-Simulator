@@ -27,9 +27,3 @@ void Register::displayRegister() {
     }
     cout << endl;
 }
-
-void Register::clearRegister() {
-    for(string& Value: registers) {
-        Value = "00";
-    }
-}
