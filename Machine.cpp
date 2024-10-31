@@ -18,6 +18,10 @@ void Machine::Run_Instruction() {
         string address2 = string(1, instructions[i][2]);
         string address3 = string(1, instructions[i][3]);
         string address4 = instructions[i].substr(2, 2);
+        string R = string(1, instructions[i][1]);
+        string S = string(1, instructions[i][2]);
+        string T = string(1, instructions[i][3]);
+        int X,XY;
         if (instructions[i][0] == '1') {
             inst.Load_From_Memory_To_Register(address4, address1,reg,mem);
         } else if (instructions[i][0] == '2') {
