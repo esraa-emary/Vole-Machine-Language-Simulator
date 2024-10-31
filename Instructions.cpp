@@ -203,8 +203,8 @@ void Instructions::AndBitwiseOperation(string& address1, string& address2, strin
 }
 
 void Instructions::exclusiveOr(int R, int S, int T) {
-    int result = getRegister(S) ^ getRegister(T);
-    setRegister(R, result);
+   int result = reg.getRegister(S) ^ reg.getRegister(T); 
+    reg.setRegister(R, result);
 
     cout << "Performed XOR between registers " << S << " and " << T << ". Result stored in register " << R << ": " << result << endl;
 }
@@ -218,7 +218,7 @@ void Instructions::rotateRight(const string& R, int X) {
 
     reg.setRegister(R, rotatedHex);
 
-    out << "Rotated register " << R << " to the right by " << X << " bits. New value: " << rotatedHex << endl;
+    cout << "Rotated register " << R << " to the right by " << X << " bits. New value: " << rotatedHex << endl;
 }
 
 void Instructions::conditionalJump(const string& R, int XY) {
