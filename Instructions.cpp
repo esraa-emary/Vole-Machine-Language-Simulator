@@ -129,6 +129,20 @@ string Instructions::decimalToBinary(int num) {
     return isNegative ? TwoComplement(bin) : bin;
 }
 
+int Instructions::binaryToDecimal(string binNumber) {
+    int dec = 0;
+    deque<char>bit;
+    for (int i = 0; i < int(binNumber.size()); i++){
+        bit.push_front(binNumber[i]);                          // Put every index in an array but reversed.
+    }
+
+    for (int i = 0; i < int(bit.size()); i++){
+        dec += static_cast<int>(bit[i]-'0') * pow(2,i);  // Evaluate the value of every index.
+    }
+
+    return dec;
+}
+
 string Instructions::AddingBinaryNumbers(string binary1, string binary2) {
     string result;
     int carry = 0;
