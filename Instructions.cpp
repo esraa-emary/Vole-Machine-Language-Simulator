@@ -178,10 +178,14 @@ string Instructions::AddingBinaryNumbers(string binary1, string binary2) {
 void Instructions::AddingTwoComplement(string& address1, string& address2, string& address3, Register& reg) {
     int valReg1 = Hexa_To_Decimal(reg.getRegister(address2));
     int valReg2 = Hexa_To_Decimal(reg.getRegister(address3));
+
+    if (valReg1 > 127) {valReg1 -= 256;}
+    if (valReg2 > 127) {valReg2 -= 256;}
+    
     string binary1 = decimalToBinary(valReg1);
     string binary2 = decimalToBinary(valReg2);
     string result = AddingBinaryNumbers(binary1, binary2);
-    reg.setRegister(address1, Decimal_To_Hexa(Hexa_To_Decimal(result)));
+    reg.setRegister(address1, Decimal_To_Hexa(binaryToDecimal(result)));
 }
 
 void Instructions::OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
