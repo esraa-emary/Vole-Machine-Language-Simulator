@@ -72,6 +72,7 @@ void Instructions::Move(string address2, string address3, Register &reg) {
 int Instructions::Hexa_To_Decimal(string Hex_Number) {
     // Convert the hexadecimal number to decimal.
     int decimalValue = stoi(Hex_Number, nullptr, 16);
+    if (decimalValue > 127) {decimalValue -= 256;}
     return decimalValue;
 }
 
