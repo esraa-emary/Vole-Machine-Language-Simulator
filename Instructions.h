@@ -21,6 +21,7 @@ public:
     string OneComplement(string binary);
     string TwoComplement(string& binary);
     string decimalToBinary(int num);
+    int binaryToDecimal(string binNumber);
     string AddingBinaryNumbers(string binary1, string binary2);
     void AddingTwoComplement(string& address1, string& address2, string& address3, Register& reg);
     void OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
