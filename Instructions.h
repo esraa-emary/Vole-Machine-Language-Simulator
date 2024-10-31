@@ -10,6 +10,11 @@ private:
 public:
     void Read_From_File();
     vector<string> Get_Instructions();
+    void halt();
+    void conditionalJumpEqual(int R, int XY);
+    void rotateRight(int R, int X);
+    void exclusiveOr(int R, int S, int T);
+    void conditionalJumpGreater(int R, int XY);
 };
 
 #endif //INSTRUCTIONS_H
