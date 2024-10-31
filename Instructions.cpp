@@ -1,4 +1,5 @@
 #include "Instructions.h"
+#include "Register.h"
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -47,6 +48,27 @@ void Instructions::Read_From_File() {
     instruct = instructions;
 }
 
+void Instructions::Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem) {
+    int index = Hexa_To_Decimal(address4);
+    string content = mem.getMemory(index);
+    reg.setRegister(address1,content);
+}
+
+void Instructions::Load_To_Register(string address1, string value, Register &reg) {
+    reg.setRegister(address1, value);
+}
+
+void Instructions::Store(string address1, string address4, Register &reg, Memory &mem) {
+    string content = reg.getRegister(address1);
+    int address = Hexa_To_Decimal(address4);
+    mem.setMemory(address, content);
+}
+
+void Instructions::Move(string address2, string address3, Register &reg) {
+    string content = reg.getRegister(address2);
+    reg.setRegister(address3, content);
+}
+
 int Instructions::Hexa_To_Decimal(string Hex_Number) {
     // Convert the hexadecimal number to decimal.
     int decimalValue = stoi(Hex_Number, nullptr, 16);
@@ -88,20 +110,20 @@ string Instructions::TwoComplement(string& binary) {
 string Instructions::decimalToBinary(int num) {
     string bin = "";
     bool isNegative = false;
-    
+
     // If the number is zero, return 0.
     if (num == 0) {return "0";}
-    // If the number is negative, convert it to positive and set the isNegative flag to true.
+        // If the number is negative, convert it to positive and set the isNegative flag to true.
     else if (num < 0) {
         isNegative = true, num *= -1;
     }
-    
+
     // Convert the decimal number to binary.
     while (num > 0) {
         bin = char('0' + num % 2) + bin;
         num /= 2;
     }
-    
+
     // Make the binary number have 16 bits.
     while (bin.size() < 16) {bin = '0' + bin;}
     return isNegative ? TwoComplement(bin) : bin;
@@ -196,7 +218,7 @@ void Instructions::halt() {
 void Instructions::conditionalJumpGreater(int R, int XY) {
     int regRValue = getRegister(R);
     int reg0Value = getRegister(0);
-    
+
     if (regRValue > reg0Value) {
         setProgramCounter(XY);
         cout << "Jumping to address " << XY << " because register " << R << " (" << regRValue << ") is greater than register 0 (" << reg0Value << ")" << endl;
