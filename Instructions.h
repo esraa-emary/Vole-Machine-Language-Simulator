@@ -10,6 +10,15 @@ private:
 public:
     void Read_From_File();
     vector<string> Get_Instructions();
+    int Hexa_To_Decimal(string Hex_Number);
+    string Decimal_To_Hexa (int Dec_Number);
+    string OneComplement(string binary);
+    string TwoComplement(string& binary);
+    string decimalToBinary(int num);
+    string AddingBinaryNumbers(string binary1, string binary2);
+    void AddingTwoComplement(string& address1, string& address2, string& address3, Register& reg);
+    void OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
+    void AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
     void halt();
     void conditionalJumpEqual(int R, int XY);
     void rotateRight(int R, int X);
