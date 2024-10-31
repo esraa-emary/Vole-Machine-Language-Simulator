@@ -5,27 +5,8 @@
 #include "Register.h"
 #include "Instructions.h"
 #include <fstream>
-
 using namespace std;
 
-int Machine::Hexa_To_Decimal(string Hex_Number) {
-    int decimalValue = stoi(Hex_Number, nullptr, 16);
-    return decimalValue;
-}
-
-string Machine::Decimal_To_Hexa (int Dec_Number) {
-    string hexa;
-    while (Dec_Number){
-        int reminder = Dec_Number % 16;
-
-        if (reminder < 10) hexa.push_back(reminder + '0');
-        else hexa.push_back(reminder - 10 + 'A');
-
-        Dec_Number /= 16;
-    }
-    reverse(hexa.begin(), hexa.end());
-    return hexa;
-}
 
 void Machine::Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem) {
     int index = Hexa_To_Decimal(address4);
@@ -46,20 +27,6 @@ void Machine::Store(string address1, string address4, Register &reg, Memory &mem
 void Machine::Move(string address2, string address3, Register &reg) {
     string content = reg.getRegister(address2);
     reg.setRegister(address3, content);
-}
-
-void Machine::OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
-    int valReg1 = Hexa_To_Decimal(reg.getRegister(address2));
-    int valReg2 = Hexa_To_Decimal(reg.getRegister(address3));
-    int result = valReg1 | valReg2;
-    reg.setRegister(address1, Decimal_To_Hexa(result));
-}
-
-void Machine::AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg) {
-    int valReg1 = Hexa_To_Decimal(reg.getRegister(address2));
-    int valReg2 = Hexa_To_Decimal(reg.getRegister(address3));
-    int result = valReg1 & valReg2;
-    reg.setRegister(address1, Decimal_To_Hexa(result));
 }
 
 void Machine::Run_Instruction() {
@@ -83,7 +50,7 @@ void Machine::Run_Instruction() {
         } else if (instructions[i][0] == '4') {
             Move(address2, address3, reg);
         } else if (instructions[i][0] == '5') {
-
+            AddingTwoComplement(address1, address2, address3, reg);
         } else if (instructions[i][0] == '6') {
 
         } else if (instructions[i][0] == '7') {
