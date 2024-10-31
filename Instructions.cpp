@@ -1,5 +1,6 @@
 #include "Instructions.h"
 #include <bits/stdc++.h>
+
 using namespace std;
 
 vector<string> Instructions::Get_Instructions() {
@@ -30,8 +31,18 @@ void Instructions::Read_From_File() {
         fileContent.erase(remove(fileContent.begin(), fileContent.end(), '\n'), fileContent.end());
         fileContent.erase(remove(fileContent.begin(), fileContent.end(), ' '), fileContent.end());
     }
-    for (int i = 0; i < fileContent.size(); i+=4) {
-        instructions.push_back(fileContent.substr(i,4));
+    for (int i = 0; i < fileContent.size(); i += 4) {
+        instructions.push_back(fileContent.substr(i, 4));
+    }
+    for (int i = 0; i < instructions.size(); ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (instructions[i][j] < 48 || (instructions[i][j] > 57 && instructions[i][j] < 65) ||
+                (instructions[i][j] > 70 && instructions[i][j] < 97) || instructions[i][j] > 102) {
+                instructions.erase(instructions.begin() + i);
+                i --;
+                break;
+            }
+        }
     }
     instruct = instructions;
 }
