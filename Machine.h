@@ -11,14 +11,6 @@ using namespace std;
 class Machine {
 public:
     void Run_Instruction();
-    int Hexa_To_Decimal(string Hex_Number);
-    string Decimal_To_Hexa (int Dec_Number);
-    void Move(string address1, string address2, Register &reg);
-    void Load_To_Register(string address1, string value, Register &reg);
-    void Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem);
-    void Store(string address1, string address2, Register & reg, Memory & mem);
-    void OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
-    void AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
 };
 
 #endif // MACHINE_H
