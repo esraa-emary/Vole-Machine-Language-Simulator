@@ -135,11 +135,9 @@ int Instructions::binaryToDecimal(string binNumber) {
     for (int i = 0; i < int(binNumber.size()); i++){
         bit.push_front(binNumber[i]);                          // Put every index in an array but reversed.
     }
-
     for (int i = 0; i < int(bit.size()); i++){
         dec += static_cast<int>(bit[i]-'0') * pow(2,i);  // Evaluate the value of every index.
     }
-
     return dec;
 }
 
