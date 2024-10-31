@@ -9,14 +9,13 @@ using namespace std;
 class Instructions {
 private:
     vector<string> instruct;
-    Register& reg; 
+    Register reg;
     bool halted = false;
     int programCounter = 0;
-    void setProgramCounter(int address) { programCounter = address; }
 public:
-    Instructions(Register& reg) : reg(reg) {}
     void Read_From_File();
     vector<string> Get_Instructions();
+    Instructions(){}
     void Move(string address1, string address2, Register &reg);
     void Load_To_Register(string address1, string value, Register &reg);
     void Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem);
@@ -36,6 +35,8 @@ public:
     void conditionalJump(const string& R, int XY);
     void exclusiveOr(int R, int S, int T);
     void conditionalJumpGreater(const string& R, int XY);
+    Instructions(Register& reg) : reg(reg) {}
+    void setProgramCounter(int address) {programCounter = address;}
 };
 
 #endif //INSTRUCTIONS_H
