@@ -9,6 +9,10 @@ using namespace std;
 class Instructions {
 private:
     vector<string> instruct;
+    Register& reg; 
+    bool halted = false;
+    int programCounter = 0;
+    void setProgramCounter(int address) { programCounter = address; }
 public:
     void Read_From_File();
     vector<string> Get_Instructions();
