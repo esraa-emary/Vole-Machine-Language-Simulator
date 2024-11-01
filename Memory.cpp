@@ -5,7 +5,7 @@ using namespace std;
 // Constructor to initialize the array with 0 in all cells
 Memory::Memory() {
     for (int i = 0; i < 256; i++) {
-        memory[i] = "0";
+        memory[i] = "00";
     }
 }
 
