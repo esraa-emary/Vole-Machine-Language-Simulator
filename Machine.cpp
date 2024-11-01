@@ -13,7 +13,9 @@ void Machine::Run_Instruction() {
     Instructions inst;
     inst.Read_From_File();
     vector<string> instructions = inst.Get_Instructions();
-    for (int i = 0; i < instructions.size(); ++i) {
+    bool haltFlag = false;
+    for (int i = 0; i < instructions.size() && !haltFlag; ++i) {
+        string instruction = instructions[i];
         string address1 = string(1, instructions[i][1]);
         string address2 = string(1, instructions[i][2]);
         string address3 = string(1, instructions[i][3]);
@@ -41,15 +43,20 @@ void Machine::Run_Instruction() {
             inst.AndBitwiseOperation(address1, address2, address3, reg);
         }
         else if (instructions[i][0] == '9') {
-            inst.exclusiveOr(R, S, T);
+            inst.exclusiveOr(address1, address2, address3, reg);
         }else if (instructions[i][0] == 'A') {
-        inst.rotateRight( R,  X);
+            X = stoi(instruction.substr(1, 2), nullptr, 16);
+            inst.rotateRight(address1, X, reg);
         } else if (instructions[i][0] == 'B') {
-        inst.conditionalJump(R,  XY);
+            XY = stoi(instruction.substr(1, 2), nullptr, 16);
+            inst.conditionalJump(address1, XY, reg, i);
+            continue; // Skip increment to jump directly
         } else if (instructions[i][0] == 'C') {
-        inst.halt();
+            inst.halt(haltFlag);
         } else if (instructions[i][0] == 'D') {
-            inst.conditionalJumpGreater(R, XY);
+            XY = stoi(instruction.substr(1, 2), nullptr, 16);
+            inst.conditionalJumpGreater(address1, XY, reg, i);
+            continue; // Skip increment to jump directly
         }
         machineMemory = mem;
         machineRegister = reg;
