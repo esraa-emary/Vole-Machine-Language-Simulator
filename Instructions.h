@@ -30,11 +30,11 @@ public:
     void AddingTwoComplement(string& address1, string& address2, string& address3, Register& reg);
     void OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
     void AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
-    void halt();
-    void rotateRight(const string& R, int X);
-    void conditionalJump(const string& R, int XY);
-    void exclusiveOr(const string& R, const string& S, const string& T);
-    void conditionalJumpGreater(const string& R, int XY);
+    void halt(bool& haltFlag);
+    void rotateRight(const string& R, int X, Register& reg);
+    void conditionalJump(const string& R, int XY, Register& reg, int& currentInstructionIndex);
+    void exclusiveOr(const string& R, const string& S, const string& T, Register& reg);
+    void conditionalJumpGreater(const string& R, int XY, Register& reg, int& currentInstructionIndex);
     void setProgramCounter(int address) {programCounter = address;}
 };
 
