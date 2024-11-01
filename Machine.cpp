@@ -36,7 +36,7 @@ void Machine::Run_Instruction() {
         } else if (instructions[i][0] == '5') {
             inst.AddingTwoComplement(address1, address2, address3, reg);
         } else if (instructions[i][0] == '6') {
-
+            inst.AddingFloatingNumber(address1, address2, address3, reg);
         } else if (instructions[i][0] == '7') {
             inst.OrBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '8') {
