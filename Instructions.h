@@ -33,9 +33,8 @@ public:
     void halt();
     void rotateRight(const string& R, int X);
     void conditionalJump(const string& R, int XY);
-    void exclusiveOr(const string& R, const string& S, const string& T)
+    void exclusiveOr(const string& R, const string& S, const string& T);
     void conditionalJumpGreater(const string& R, int XY);
-    Instructions(Register& reg) : reg(reg) {}
     void setProgramCounter(int address) {programCounter = address;}
 };
 
