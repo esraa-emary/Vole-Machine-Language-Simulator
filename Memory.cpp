@@ -27,7 +27,20 @@ void Memory::setMemory(int address, string value) {
 
 // Display memory contents
 void Memory::printMemory() {
-    for (int i = 0; i < 256; ++i) {
-        cout << "Memory[" << i << "] = " << memory[i] << "\n";
+    // Print column headers
+    cout << "   ";
+    for (int i = 0; i < 16; ++i) {
+        cout << hex << i << "  ";  // Print in hexadecimal format
+    }
+    cout << endl;
+
+    // Print each row
+    for (int row = 0; row < 16; ++row) {
+        cout << hex << row << " ";  // Print row header in hexadecimal format
+        for (int col = 0; col < 16; ++col) {
+            int address = row * 16 + col;  // Calculate memory address
+            cout << memory[address] << " "; // Print memory content
+        }
+        cout << endl; // Move to the next line after each row
     }
 }
