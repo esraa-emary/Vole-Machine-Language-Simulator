@@ -39,10 +39,10 @@ public:
     void AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
 
     void halt(bool& haltFlag);
-    void rotateRight(const string& R, int X, Register& reg);
-    void conditionalJump(const string& R, int XY, Register& reg, int& currentInstructionIndex);
-    void exclusiveOr(const string& R, const string& S, const string& T, Register& reg);
-    void conditionalJumpGreater(const string& R, int XY, Register& reg, int& currentInstructionIndex);
+    void rotateRight(const string& address1, int X, Register& reg);
+    void conditionalJump(const string& address1, int XY, Register& reg, int& currentInstructionIndex);
+    void exclusiveOr(const string& address1, const string& address2, const string& address3, Register& reg);
+    void conditionalJumpGreater(const string& address1, int XY, Register& reg, int& currentInstructionIndex);
     void setProgramCounter(int address) {programCounter = address;}
 };
 
