@@ -15,6 +15,9 @@ public:
     void getMemory();
     void getRegister();
     void Run_Instruction();
+    void LoadNewProgram();
+    void RunAll();
+    void RunStepByStep();
 };
 
 #endif // MACHINE_H
