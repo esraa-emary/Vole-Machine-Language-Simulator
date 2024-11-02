@@ -41,8 +41,7 @@ void Machine::Run_Instruction() {
             inst.OrBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '8') {
             inst.AndBitwiseOperation(address1, address2, address3, reg);
-        }
-        else if (instructions[i][0] == '9') {
+        }else if (instructions[i][0] == '9') {
             inst.exclusiveOr(address1, address2, address3, reg);
         }else if (instructions[i][0] == 'A') {
             X = stoi(instruction.substr(1, 2), nullptr, 16);
