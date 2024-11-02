@@ -1,6 +1,7 @@
 #include "Instructions.h"
 #include "Register.h"
 #include <bits/stdc++.h>
+
 using namespace std;
 
 vector<string> Instructions::Get_Instructions() {
@@ -27,7 +28,7 @@ void Instructions::Read_From_File() {
     }
     content << file.rdbuf();
     fileContent = content.str();
-    for (int i = 0; i < fileContent.size(); ++i) {                  // remove spaces and end lines from the file. 
+    for (int i = 0; i < fileContent.size(); ++i) {                  // remove spaces and end lines from the file.
         fileContent.erase(remove(fileContent.begin(), fileContent.end(), '\n'), fileContent.end());
         fileContent.erase(remove(fileContent.begin(), fileContent.end(), ' '), fileContent.end());
     }
@@ -63,7 +64,6 @@ string Instructions::twoComplement(string binary) {
     // For twos complement add 1 to the ones complement.
     int carry = 1;
     for (int i = binary.size() - 1; i >= 0; --i) {
-
         if (onesComplement[i] == '1' && carry == 1) {
             onesComplement[i] = '0';
         }
@@ -94,7 +94,6 @@ string Instructions::decimalToBinary(int Dec_Number) {
 
     // Make the binary number have 8 bits.
     while (bin.size() < 8) {bin = '0' + bin;}
-
     // Return the binary number.
     // If the number was negative, return the two's complement of the binary number.
     return isNegative ? twoComplement(bin) : bin;
@@ -106,11 +105,9 @@ int Instructions::binaryToDecimal(string binNumber) {
     for (int i = 0; i < int(binNumber.size()); i++){
         bit.push_front(binNumber[i]);               // Put every index in an array but reversed.
     }
-
     for (int i = 0; i < int(bit.size()); i++){
         dec += static_cast<int>(bit[i]-'0') * pow(2,i);  // Evaluate the value of every index.
     }
-
     return dec;
 }
 
@@ -118,7 +115,6 @@ double Instructions::binaryToDecimalFraction(const string& binaryFraction) {
     // Get the fractional and integer parts of the binary number.
     string fractionalPart = binaryFraction.substr(binaryFraction.find('.') + 1);
     string integerPart = binaryFraction.substr(0, binaryFraction.find('.'));
-
     // Calculate the decimal value of the fractional part.
     double decimalValue = 0.0;
     for (int i = 0; i < fractionalPart.size(); i++) {
@@ -126,24 +122,18 @@ double Instructions::binaryToDecimalFraction(const string& binaryFraction) {
             decimalValue += pow(2, -(i + 1));
         }
     }
-
     // Return the sum of the integer and fractional parts.
     return binaryToDecimal(integerPart) + decimalValue;
 }
-
 string Instructions::fractionDecimalToBinary(double decimalFraction, int precision = 10) {
     string binary = "0.";
-
     // Get the integer part of the decimal number and subtract it from the decimal number.
     int integerPart = int(decimalFraction);
     decimalFraction -= integerPart;
-
     // If the decimal number is an integer, return the binary of the integer part.
     if (decimalFraction == 0) return decimalToBinary(integerPart);
-
     // If the decimal number is negative, make it positive.
     decimalFraction < 0 ? decimalFraction *= -1 : decimalFraction;
-
     // Calculate the binary of the fractional part.
     while (decimalFraction > 0 && precision > 0) {
         decimalFraction *= 2;
@@ -152,16 +142,13 @@ string Instructions::fractionDecimalToBinary(double decimalFraction, int precisi
         decimalFraction -= bit;
         precision--;
     }
-
     binary.erase(binary.begin());
     return decimalToBinary(integerPart) + binary;
 }
-
 int Instructions::Hexa_To_Decimal(string Hex_Number) {
     int decimalValue = stoi(Hex_Number, nullptr, 16);
     return decimalValue;
 }
-
 string Instructions::Decimal_To_Hexa (int Dec_Number) {
     stringstream hexadecimal;
     hexadecimal << hex << (static_cast<uint16_t>(Dec_Number) & 0xFF);
@@ -175,17 +162,14 @@ void Instructions::Load_From_Memory_To_Register(string address4, string address1
     string content = mem.getMemory(index);
     reg.setRegister(address1,content);
 }
-
 void Instructions::Load_To_Register(string address1, string value, Register &reg) {
     reg.setRegister(address1, value);
 }
-
 void Instructions::Store(string address1, string address4, Register &reg, Memory &mem) {
     string content = reg.getRegister(address1);
     int address = Hexa_To_Decimal(address4);
     mem.setMemory(address, content);
 }
-
 void Instructions::Move(string address2, string address3, Register &reg) {
     string content = reg.getRegister(address2);
     reg.setRegister(address3, content);
@@ -241,14 +225,12 @@ void Instructions::AddingTwoComplement(string& address1, string& address2, strin
 }
 
 string Instructions::ImplicitNormalization(double Dec_Number) {
-
     // Check if the number is negative. If it is negative, make it positive and set the flag to true.
     bool isNegative = false;
     if (Dec_Number < 0) {
         isNegative = true;
         Dec_Number *= -1;
     }
-
     // Convert the number to binary and get the index of the first one bit.
     string binary = fractionDecimalToBinary(Dec_Number);
     int floatingIndex = 8, firstOneBitIndex = 0;
@@ -258,14 +240,11 @@ string Instructions::ImplicitNormalization(double Dec_Number) {
             break;
         }
     }
-
     // Calculate the exponent.
     int exponent = Dec_Number >= 1 ? floatingIndex - firstOneBitIndex -1 : (firstOneBitIndex - 1) * -1;
-
     // Calculate and Normalize the mantissa.
     double tempBinary = stod(fractionDecimalToBinary(Dec_Number));
     tempBinary *= pow(10, -exponent);
-
     // Construct the final result.
     string result;
     isNegative ? result.push_back('1') : result.push_back('0');
@@ -276,28 +255,23 @@ string Instructions::ImplicitNormalization(double Dec_Number) {
 
 double Instructions::encodeImplicitNormalization(string hexNumber) {
     string binary = decimalToBinary(Hexa_To_Decimal(hexNumber));
-
     // Calculate the exponent and the mantissa.
     int exponent = binaryToDecimal(binary.substr(1, 3));
     int power = exponent -4;
     double mantissaPart = stod("1." + binary.substr(4, 4));
     double result = mantissaPart * pow(10, power);
-
     // If it is negative, make it negative. Else, make it positive.
     // Return the result.
     return binary[0] == '1' ? -binaryToDecimalFraction(to_string(result)) : binaryToDecimalFraction(to_string(result));
 }
 
-string Instructions::AddingFloatingNumber(string& address1, string& address2, string& address3, Register& reg) {
+void Instructions::AddingFloatingNumber(string& address1, string& address2, string& address3, Register& reg) {
     double valReg1 = encodeImplicitNormalization(reg.getRegister(address2));
     double valReg2 = encodeImplicitNormalization(reg.getRegister(address3));
-
     // Calculate the sum of the two floating numbers.
     double temp = valReg1 + valReg2;
-
     // Normalize the result.
     int tempResult = binaryToDecimal(ImplicitNormalization(temp));
-
     reg.setRegister(address1, Decimal_To_Hexa(tempResult));
 }
 
@@ -320,53 +294,40 @@ void Instructions::AndBitwiseOperation(string& address1, string& address2, strin
 void Instructions::exclusiveOr(const string& R, const string& S, const string& T, Register& reg) {
     string valueR = reg.getRegister(R);
     string valueS = reg.getRegister(S);
-
     // Assuming valueR and valueS are in hexadecimal format
     int numR = stoi(valueR, nullptr, 16);
     int numS = stoi(valueS, nullptr, 16);
-
     // Perform XOR operation
     int result = numR ^ numS;
-
     // Store the result in register T
     reg.setRegister(T, Decimal_To_Hexa(result));
 }
 
-
 void Instructions::rotateRight(const string& R, int X, Register& reg) {
     string valueR = reg.getRegister(R);
-
     // Assuming valueR is in hexadecimal format
     int numR = stoi(valueR, nullptr, 16);
-
     // Convert to binary and rotate right
     bitset<16> bits(numR); // Assuming a 16-bit register
-
     // Rotate right
     bits = (bits >> X) | (bits << (16 - X));
-
     // Store back the result in the same register
     reg.setRegister(R, Decimal_To_Hexa(static_cast<int>(bits.to_ulong())));
 }
 
-
 void Instructions::conditionalJump(const string& R, int XY, Register& reg, int& currentInstructionIndex) {
     int value = stoi(reg.getRegister(R), nullptr, 16);
-
     if (value == 0) {
         currentInstructionIndex = XY - 1;  // Jump to instruction XY
     }
 }
 
-
 void Instructions::halt(bool& haltFlag) {
     haltFlag = true;  // Signal to halt execution in the Machine class
 }
 
-
 void Instructions::conditionalJumpGreater(const string& R, int XY, Register& reg, int& currentInstructionIndex) {
     int value = stoi(reg.getRegister(R), nullptr, 16);
-
     if (value > 0) {
         currentInstructionIndex = XY - 1;  // Jump to instruction XY
     }
