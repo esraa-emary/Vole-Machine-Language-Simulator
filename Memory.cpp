@@ -33,7 +33,6 @@ void Memory::printMemory() {
         cout << hex << i << "  ";  // Print in hexadecimal format
     }
     cout << endl;
-
     // Print each row
     for (int row = 0; row < 16; ++row) {
         cout << hex << row << " ";  // Print row header in hexadecimal format
