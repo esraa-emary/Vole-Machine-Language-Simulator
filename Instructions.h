@@ -9,7 +9,6 @@ using namespace std;
 class Instructions {
 private:
     vector<string> instruct;
-    Register reg;
     bool halted = false;
     int programCounter = 0;
 public:
@@ -35,7 +34,7 @@ public:
     void AddingTwoComplement(string& address1, string& address2, string& address3, Register& reg);
     string ImplicitNormalization(double Dec_Number);
     double encodeImplicitNormalization(string hexNumber);
-    string AddingFloatingNumber(string& address1, string& address2, string& address3, Register& reg);
+    void AddingFloatingNumber(string& address1, string& address2, string& address3, Register& reg);
     void OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
     void AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
 
