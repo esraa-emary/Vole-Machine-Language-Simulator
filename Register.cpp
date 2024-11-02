@@ -23,7 +23,8 @@ string Register::getRegister(const string& address) {
 void Register::displayRegister() {
     cout << "The Registers: \n";
     for (int i = 0; i < registers.size(); ++i) {
-        cout << " - R" << i << ": " << registers[i] << endl;
+        if (i > 9) cout << " - R" << static_cast<char>(65+i-10)<< ": " << registers[i] << endl;
+        else cout << " - R" << i << ": " << registers[i] << endl;
     }
     cout << endl;
 }
