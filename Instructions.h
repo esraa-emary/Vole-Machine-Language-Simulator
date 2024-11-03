@@ -38,7 +38,8 @@ public:
     void OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
     void AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
 
-    void halt(bool& haltFlag);
+    void halt();
+    bool getHalted(){return halted;}
     void rotateRight(const string& address1, int X, Register& reg);
     void conditionalJump(const string& address1, int XY, Register& reg, int& currentInstructionIndex);
     void exclusiveOr(const string& address1, const string& address2, const string& address3, Register& reg);
