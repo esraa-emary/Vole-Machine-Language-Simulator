@@ -305,56 +305,38 @@ void Instructions::exclusiveOr(const string &address1, const string &address2, c
     reg.setRegister(address1, Decimal_To_Hexa(result));
 }
 
-void Instructions::rotateRight(const string& R, int X, Register& reg) {
-    string valueR = reg.getRegister(R);
-    // Assuming valueR is in hexadecimal format
-    int numR = stoi(valueR, nullptr, 16);
-    // Convert to binary and rotate right
-    bitset<16> bits(numR); // Assuming a 16-bit register
-    // Rotate right
-    bits = (bits >> X) | (bits << (16 - X));
-    // Store back the result in the same register
-    reg.setRegister(R, Decimal_To_Hexa(static_cast<int>(bits.to_ulong())));
-}
+void Instructions::rotateRight(const string &address1, int X, Register &reg) {
+    // Retrieve the hexadecimal value from the register
+    string value1 = reg.getRegister(address1);
+    // Convert the hexadecimal value to decimal
+    int num1 = stoi(value1, nullptr, 16);
 
-//void Instructions::rotateRight(const string &address1, int X, Register &reg) {
-//    // Retrieve the hexadecimal value from the register
-//    string value1 = reg.getRegister(address1);
-//    // Convert the hexadecimal value to decimal
-//    int num1 = stoi(value1, nullptr, 16);
-//
-//    // Create a 16-bit bitset from the decimal value
-//    bitset<16> bits(num1);
-//    cout << "Original bits: " << bits << endl;
-//
-//    // Convert the bitset to a binary string representation
-//    string binaryString = bits.to_string();
-//    cout << "Binary string before rotation: " << binaryString << endl;
-//
-//    // Ensure X is a valid rotation amount
-//    X = X % 16; // Only need to rotate within the range of 0-15
-//
-//    // Perform the right rotation
-//    if (X > 0) {
-//        // Right rotate the binary string
-//        string rotatedString = binaryString.substr(binaryString.size() - X) +
-//                               binaryString.substr(0, binaryString.size() - X);
-//        binaryString = rotatedString; // Update the binary string
-//    }
-//
-//    cout << "Binary string after rotation: " << binaryString << endl;
-//
-//    // Convert the rotated binary string back to decimal
-//    int res = binaryToDecimal(binaryString);
-//    cout << "Decimal result after rotation: " << res << endl;
-//
-//    // Convert decimal to hexadecimal
-//    string resultAfter = Decimal_To_Hexa(res);
-//    cout << "Hexadecimal result: " << resultAfter << endl;
-//
-//    // Store back the result in the same register
-//    reg.setRegister(address1, resultAfter);
-//}
+    // Create a 16-bit bitset from the decimal value
+    bitset<16> bits(num1);
+
+    // Convert the bitset to a binary string representation
+    string binaryString = bits.to_string();
+
+    // Ensure X is a valid rotation amount
+    X = X % 16; // Only need to rotate within the range of 0-15
+
+    // Perform the right rotation
+    if (X > 0) {
+        // Right rotate the binary string
+        string rotatedString = binaryString.substr(binaryString.size() - X) +
+                               binaryString.substr(0, binaryString.size() - X);
+        binaryString = rotatedString; // Update the binary string
+    }
+
+    // Convert the rotated binary string back to decimal
+    int res = binaryToDecimal(binaryString);
+
+    // Convert decimal to hexadecimal
+    string resultAfter = Decimal_To_Hexa(res);
+
+    // Store back the result in the same register
+    reg.setRegister(address1, resultAfter);
+}
 
 void Instructions::conditionalJump(const string &R, int XY, Register &reg, int &currentInstructionIndex) {
     int value = stoi(reg.getRegister(R), nullptr, 16);
@@ -363,8 +345,8 @@ void Instructions::conditionalJump(const string &R, int XY, Register &reg, int &
     }
 }
 
-void Instructions::halt(bool &haltFlag) {
-    haltFlag = true;  // Signal to halt execution in the Machine class
+void Instructions::halt() {
+    halted = true;  // Signal to halt execution in the Machine class
 }
 
 void Instructions::conditionalJumpGreater(const string &R, int XY, Register &reg, int &currentInstructionIndex) {
