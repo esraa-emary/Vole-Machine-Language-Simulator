@@ -41,9 +41,9 @@ public:
     void halt();
     bool getHalted(){return halted;}
     void rotateRight(const string& address1, int X, Register& reg);
-    void conditionalJump(const string& address1, int XY, Register& reg, int& currentInstructionIndex);
+    void conditionalJump(const string& address1, int XY, Register& reg,Memory& mem, vector<string>& instructions, int currentI);
     void exclusiveOr(const string& address1, const string& address2, const string& address3, Register& reg);
-    void conditionalJumpGreater(const string& address1, int XY, Register& reg, int& currentInstructionIndex);
+    void conditionalJumpGreater(const string& address1, int XY, Register& reg,Memory& mem, vector<string>& instructions, int currentI);
     void setProgramCounter(int address) {programCounter = address;}
 };
 
