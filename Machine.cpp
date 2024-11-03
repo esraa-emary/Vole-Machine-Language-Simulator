@@ -4,6 +4,7 @@
 #include "Memory.h"
 #include "Register.h"
 #include "Instructions.h"
+
 using namespace std;
 
 void Machine::LoadNewProgram() {
@@ -58,22 +59,20 @@ void Machine::RunStepByStep() {
         } else if (instructions[i][0] == 'A' || instructions[i][0] == 'a') {
             X = stoi(instruction.substr(2, 1), nullptr, 16);
             inst.rotateRight(address1, X, reg);
-        } else if (instructions[i][0] == 'B' || instructions[i][0] == 'b') {
-            XY = stoi(instruction.substr(2, 2), nullptr, 16);
-            inst.conditionalJump(address1, XY, reg, i);
-            continue;
+        }  else if (instructions[i][0] == 'B' || instructions[i][0] == 'b') {
+            XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
+            inst.conditionalJump(address1, XY, reg, mem, instructions, i);
         } else if (instructions[i][0] == 'C' || instructions[i][0] == 'c') {
             inst.halt();
-        } else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
-            XY = stoi(instruction.substr(2, 2), nullptr, 16);
-            inst.conditionalJumpGreater(address1, XY, reg, i);
-            continue;
+        }else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
+            XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
+            inst.conditionalJump(address1, XY, reg, mem, instructions, i);
         }
 
         // Display register and memory state after each instruction
         machineMemory = mem;
         machineRegister = reg;
-        cout << "\nStep " << i + 1 << " completed. Current Register State:\n";
+        cout << "\nStep " << i + 1 << " completed. \nCurrent Register State:\n";
         getRegister();
         cout << "Current Memory State:\n";
         getMemory();
@@ -121,14 +120,12 @@ void Machine::Run_Instruction() {
             inst.rotateRight(address1, X, reg);
         } else if (instructions[i][0] == 'B' || instructions[i][0] == 'b') {
             XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
-            inst.conditionalJump(address1, XY, reg, i);
-            continue;
+            inst.conditionalJump(address1, XY, reg, mem, instructions, i);
         } else if (instructions[i][0] == 'C' || instructions[i][0] == 'c') {
             inst.halt();
-        } else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
+        }else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
             XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
-            inst.conditionalJumpGreater(address1, XY, reg, i);
-            continue;
+            inst.conditionalJump(address1, XY, reg, mem, instructions, i);
         }
         machineMemory = mem;
         machineRegister = reg;
