@@ -29,7 +29,8 @@ int main() {
         }
         if (choice == "1"){
             cout << "\nLoading a new program...\n";
-            m.LoadNewProgram();
+            Machine newM;
+            newM.LoadNewProgram();
         }
         else if (choice == "2"){
             cout << "\nRunning program as a whole...\n";
