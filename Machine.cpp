@@ -26,9 +26,9 @@ void Machine::RunStepByStep() {
     Instructions inst;
     inst.Read_From_File();
     vector<string> instructions = inst.Get_Instructions();
-    bool haltFlag = false;
+    bool Flag = inst.getHalted();
 
-    for (int i = 0; i < instructions.size() && !haltFlag; ++i) {
+    for (int i = 0; i < instructions.size() && !Flag; ++i) {
         string instruction = instructions[i];
         string address1 = string(1, instructions[i][1]);
         string address2 = string(1, instructions[i][2]);
@@ -55,17 +55,17 @@ void Machine::RunStepByStep() {
             inst.AndBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '9') {
             inst.exclusiveOr(address1, address2, address3, reg);
-        } else if (instructions[i][0] == 'A') {
+        } else if (instructions[i][0] == 'A' || instructions[i][0] == 'a') {
             X = stoi(instruction.substr(2, 1), nullptr, 16);
             inst.rotateRight(address1, X, reg);
-        } else if (instructions[i][0] == 'B') {
-            XY = stoi(instruction.substr(1, 2), nullptr, 16);
+        } else if (instructions[i][0] == 'B' || instructions[i][0] == 'b') {
+            XY = stoi(instruction.substr(2, 2), nullptr, 16);
             inst.conditionalJump(address1, XY, reg, i);
             continue;
-        } else if (instructions[i][0] == 'C') {
-            inst.halt(haltFlag);
-        } else if (instructions[i][0] == 'D') {
-            XY = stoi(instruction.substr(1, 2), nullptr, 16);
+        } else if (instructions[i][0] == 'C' || instructions[i][0] == 'c') {
+            inst.halt();
+        } else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
+            XY = stoi(instruction.substr(2, 2), nullptr, 16);
             inst.conditionalJumpGreater(address1, XY, reg, i);
             continue;
         }
@@ -77,6 +77,7 @@ void Machine::RunStepByStep() {
         getRegister();
         cout << "Current Memory State:\n";
         getMemory();
+        Flag = inst.getHalted();
     }
 }
 
@@ -86,9 +87,9 @@ void Machine::Run_Instruction() {
     Instructions inst;
     inst.Read_From_File();
     vector<string> instructions = inst.Get_Instructions();
-    bool haltFlag = false;
+    bool Flag = inst.getHalted();
 
-    for (int i = 0; i < instructions.size() && !haltFlag; ++i) {
+    for (int i = 0; i < instructions.size() && !Flag; ++i) {
         string instruction = instructions[i];
         string address1 = string(1, instructions[i][1]);
         string address2 = string(1, instructions[i][2]);
@@ -115,23 +116,23 @@ void Machine::Run_Instruction() {
             inst.AndBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '9') {
             inst.exclusiveOr(address1, address2, address3, reg);
-        } else if (instructions[i][0] == 'A') {
-            X = stoi(instruction.substr(2, 1), nullptr, 16);
+        } else if (instructions[i][0] == 'A' || instructions[i][0] == 'a') {
+            X = stoi(instructions[i].substr(2, 2), nullptr, 16);
             inst.rotateRight(address1, X, reg);
-        } else if (instructions[i][0] == 'B') {
-            XY = stoi(instruction.substr(1, 2), nullptr, 16);
+        } else if (instructions[i][0] == 'B' || instructions[i][0] == 'b') {
+            XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
             inst.conditionalJump(address1, XY, reg, i);
             continue;
-        } else if (instructions[i][0] == 'C') {
-            inst.halt(haltFlag);
-        } else if (instructions[i][0] == 'D') {
-            XY = stoi(instruction.substr(1, 2), nullptr, 16);
+        } else if (instructions[i][0] == 'C' || instructions[i][0] == 'c') {
+            inst.halt();
+        } else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
+            XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
             inst.conditionalJumpGreater(address1, XY, reg, i);
             continue;
         }
-
         machineMemory = mem;
         machineRegister = reg;
+        Flag = inst.getHalted();
     }
 }
 
