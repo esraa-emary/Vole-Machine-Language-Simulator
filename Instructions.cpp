@@ -338,20 +338,26 @@ void Instructions::rotateRight(const string &address1, int X, Register &reg) {
     reg.setRegister(address1, resultAfter);
 }
 
-void Instructions::conditionalJump(const string &R, int XY, Register &reg, int &currentInstructionIndex) {
-    int value = stoi(reg.getRegister(R), nullptr, 16);
-    if (value == 0) {
-        currentInstructionIndex = XY - 1;  // Jump to instruction XY
-    }
+void Instructions::conditionalJump(const string &address1, int XY, Register &reg, Memory &mem,
+                                   vector<string> &instructions, int currentI) {
+    int value1 = stoi(reg.getRegister(address1), nullptr, 16);
+    int value2 = stoi(reg.getRegister("0"), nullptr, 16);
+    if (value1 == value2) {
+        string ins = mem.getMemory(XY) + mem.getMemory(XY + 1);
+        instructions.insert(instructions.begin() + currentI + 1, ins);
+    } else return;
 }
 
 void Instructions::halt() {
     halted = true;  // Signal to halt execution in the Machine class
 }
 
-void Instructions::conditionalJumpGreater(const string &R, int XY, Register &reg, int &currentInstructionIndex) {
-    int value = stoi(reg.getRegister(R), nullptr, 16);
-    if (value > 0) {
-        currentInstructionIndex = XY - 1;  // Jump to instruction XY
-    }
+void Instructions::conditionalJumpGreater(const string &address1, int XY, Register &reg, Memory &mem,
+                                          vector<string> &instructions, int currentI) {
+    int value1 = stoi(reg.getRegister(address1), nullptr, 16);
+    int value2 = stoi(reg.getRegister("0"), nullptr, 16);
+    if (value1 == value2) {
+        string ins = mem.getMemory(XY) + mem.getMemory(XY + 1);
+        instructions.insert(instructions.begin() + currentI + 1, ins);
+    } else return;
 }
