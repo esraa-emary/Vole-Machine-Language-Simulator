@@ -4,12 +4,12 @@
 
 using namespace std;
 
-vector<string> Instructions::Get_Instructions() {
+vector<string> Instructions::getInstructions() {
     vector<string> content = instruct;
     return content;
 }
 
-void Instructions::Read_From_File() {
+void Instructions::readFromFile() {
     string fileName, fileContent, pos = "";
     stringstream content;
     vector<string> instructions;
@@ -48,7 +48,7 @@ void Instructions::Read_From_File() {
     instruct = instructions;
 }
 
-string Instructions::OneComplement(string binary) {
+string Instructions::oneComplement(string binary) {
     while (binary.size() < 8) { binary = '0' + binary; }
 
     // For ones complement flip every bit in the binary number.
@@ -59,7 +59,7 @@ string Instructions::OneComplement(string binary) {
 }
 
 string Instructions::twoComplement(string binary) {
-    string onesComplement = OneComplement(binary);
+    string onesComplement = oneComplement(binary);
 
     // For twos complement add 1 to the ones complement.
     int carry = 1;
@@ -146,12 +146,12 @@ string Instructions::fractionDecimalToBinary(double decimalFraction, int precisi
     return decimalToBinary(integerPart) + binary;
 }
 
-int Instructions::Hexa_To_Decimal(string Hex_Number) {
+int Instructions::hexaToDecimal(string Hex_Number) {
     int decimalValue = stoi(Hex_Number, nullptr, 16);
     return decimalValue;
 }
 
-string Instructions::Decimal_To_Hexa(int Dec_Number) {
+string Instructions::decimalToHexa(int Dec_Number) {
     stringstream hexadecimal;
     hexadecimal << hex << uppercase << setw(2) << setfill('0') << (static_cast<uint16_t>(Dec_Number) & 0xFF);
     return hexadecimal.str();
@@ -159,30 +159,30 @@ string Instructions::Decimal_To_Hexa(int Dec_Number) {
 
 //#####################################################################################################################
 
-void Instructions::Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem) {
-    int index = Hexa_To_Decimal(address4);
+void Instructions::loadFromMemoryToRegister(string address4, string address1, Register &reg, Memory &mem) {
+    int index = hexaToDecimal(address4);
     string content = mem.getMemory(index);
     reg.setRegister(address1, content);
 }
 
-void Instructions::Load_To_Register(string address1, string value, Register &reg) {
+void Instructions::loadToRegister(string address1, string value, Register &reg) {
     reg.setRegister(address1, value);
 }
 
-void Instructions::Store(string address1, string address4, Register &reg, Memory &mem) {
+void Instructions::store(string address1, string address4, Register &reg, Memory &mem) {
     string content = reg.getRegister(address1);
-    int address = Hexa_To_Decimal(address4);
+    int address = hexaToDecimal(address4);
     mem.setMemory(address, content);
 }
 
-void Instructions::Move(string address2, string address3, Register &reg) {
+void Instructions::move(string address2, string address3, Register &reg) {
     string content = reg.getRegister(address2);
     reg.setRegister(address3, content);
 }
 
 //#####################################################################################################################
 
-string Instructions::AddingBinaryNumbers(string binary1, string binary2) {
+string Instructions::addingBinaryNumbers(string binary1, string binary2) {
     string result;
     int carry = 0;
     binary1 = '0' + binary1, binary2 = '0' + binary2;
@@ -213,20 +213,20 @@ string Instructions::AddingBinaryNumbers(string binary1, string binary2) {
     return result;
 }
 
-void Instructions::AddingTwoComplement(string &address1, string &address2, string &address3, Register &reg) {
-    int valReg1 = Hexa_To_Decimal(reg.getRegister(address2));
-    int valReg2 = Hexa_To_Decimal(reg.getRegister(address3));
+void Instructions::addingTwoComplement(string &address1, string &address2, string &address3, Register &reg) {
+    int valReg1 = hexaToDecimal(reg.getRegister(address2));
+    int valReg2 = hexaToDecimal(reg.getRegister(address3));
 
     if (valReg1 > 127) { valReg1 -= 256; }
     if (valReg2 > 127) { valReg2 -= 256; }
 
     string binary1 = decimalToBinary(valReg1);
     string binary2 = decimalToBinary(valReg2);
-    string result = AddingBinaryNumbers(binary1, binary2);
-    reg.setRegister(address1, Decimal_To_Hexa(binaryToDecimal(result)));
+    string result = addingBinaryNumbers(binary1, binary2);
+    reg.setRegister(address1, decimalToHexa(binaryToDecimal(result)));
 }
 
-string Instructions::ImplicitNormalization(double Dec_Number) {
+string Instructions::implicitNormalization(double Dec_Number) {
     // Check if the number is negative. If it is negative, make it positive and set the flag to true.
     bool isNegative = false;
     if (Dec_Number < 0) {
@@ -256,7 +256,7 @@ string Instructions::ImplicitNormalization(double Dec_Number) {
 }
 
 double Instructions::encodeImplicitNormalization(string hexNumber) {
-    string binary = decimalToBinary(Hexa_To_Decimal(hexNumber));
+    string binary = decimalToBinary(hexaToDecimal(hexNumber));
     // Calculate the exponent and the mantissa.
     int exponent = binaryToDecimal(binary.substr(1, 3));
     int power = exponent - 4;
@@ -267,28 +267,28 @@ double Instructions::encodeImplicitNormalization(string hexNumber) {
     return binary[0] == '1' ? -binaryToDecimalFraction(to_string(result)) : binaryToDecimalFraction(to_string(result));
 }
 
-void Instructions::AddingFloatingNumber(string &address1, string &address2, string &address3, Register &reg) {
+void Instructions::addingFloatingNumber(string &address1, string &address2, string &address3, Register &reg) {
     double valReg1 = encodeImplicitNormalization(reg.getRegister(address2));
     double valReg2 = encodeImplicitNormalization(reg.getRegister(address3));
     // Calculate the sum of the two floating numbers.
     double temp = valReg1 + valReg2;
     // Normalize the result.
-    int tempResult = binaryToDecimal(ImplicitNormalization(temp));
-    reg.setRegister(address1, Decimal_To_Hexa(tempResult));
+    int tempResult = binaryToDecimal(implicitNormalization(temp));
+    reg.setRegister(address1, decimalToHexa(tempResult));
 }
 
-void Instructions::OrBitwiseOperation(string &address1, string &address2, string &address3, Register &reg) {
-    int valReg1 = Hexa_To_Decimal(reg.getRegister(address2));
-    int valReg2 = Hexa_To_Decimal(reg.getRegister(address3));
+void Instructions::orBitwiseOperation(string &address1, string &address2, string &address3, Register &reg) {
+    int valReg1 = hexaToDecimal(reg.getRegister(address2));
+    int valReg2 = hexaToDecimal(reg.getRegister(address3));
     int result = valReg1 | valReg2;
-    reg.setRegister(address1, Decimal_To_Hexa(result));
+    reg.setRegister(address1, decimalToHexa(result));
 }
 
-void Instructions::AndBitwiseOperation(string &address1, string &address2, string &address3, Register &reg) {
-    int valReg1 = Hexa_To_Decimal(reg.getRegister(address2));
-    int valReg2 = Hexa_To_Decimal(reg.getRegister(address3));
+void Instructions::andBitwiseOperation(string &address1, string &address2, string &address3, Register &reg) {
+    int valReg1 = hexaToDecimal(reg.getRegister(address2));
+    int valReg2 = hexaToDecimal(reg.getRegister(address3));
     int result = valReg1 & valReg2;
-    reg.setRegister(address1, Decimal_To_Hexa(result));
+    reg.setRegister(address1, decimalToHexa(result));
 }
 
 //#####################################################################################################################
@@ -302,7 +302,7 @@ void Instructions::exclusiveOr(const string &address1, const string &address2, c
     // Perform XOR operation
     int result = num2 ^ num3;
     // Store the result in register T
-    reg.setRegister(address1, Decimal_To_Hexa(result));
+    reg.setRegister(address1, decimalToHexa(result));
 }
 
 void Instructions::rotateRight(const string &address1, int X, Register &reg) {
@@ -332,7 +332,7 @@ void Instructions::rotateRight(const string &address1, int X, Register &reg) {
     int res = binaryToDecimal(binaryString);
 
     // Convert decimal to hexadecimal
-    string resultAfter = Decimal_To_Hexa(res);
+    string resultAfter = decimalToHexa(res);
 
     // Store back the result in the same register
     reg.setRegister(address1, resultAfter);
