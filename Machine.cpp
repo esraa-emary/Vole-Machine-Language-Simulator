@@ -66,7 +66,7 @@ void Machine::runStepByStep() {
             inst.halt();
         }else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
             XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
-            inst.conditionalJump(address1, XY, reg, mem, instructions, i);
+            inst.conditionalJumpGreater(address1, XY, reg, mem, instructions, i);
         }
 
         // Display register and memory state after each instruction
@@ -125,7 +125,7 @@ void Machine::runInstruction() {
             inst.halt();
         }else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
             XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
-            inst.conditionalJump(address1, XY, reg, mem, instructions, i);
+            inst.conditionalJumpGreater(address1, XY, reg, mem, instructions, i);
         }
         machineMemory = mem;
         machineRegister = reg;
