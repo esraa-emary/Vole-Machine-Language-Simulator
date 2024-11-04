@@ -7,6 +7,11 @@
 
 using namespace std;
 
+void Machine::showScreenOutput() {
+    cout << "What shows on screen: " << machineMemory.getMemory(0) << endl;
+}
+
+
 void Machine::loadNewProgram() {
     runInstruction();
     getRegister();
@@ -19,6 +24,7 @@ void Machine::runAll() {
     getRegister();
     cout << "Final Memory State:\n";
     getMemory();
+    showScreenOutput(); // Display what shows on screen
 }
 
 void Machine::runStepByStep() {
@@ -76,6 +82,7 @@ void Machine::runStepByStep() {
         getRegister();
         cout << "Current Memory State:\n";
         getMemory();
+        showScreenOutput(); // Display what shows on screen
         Flag = inst.getHalted();
     }
 }
