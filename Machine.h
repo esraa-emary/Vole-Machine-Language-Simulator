@@ -14,10 +14,10 @@ private:
 public:
     void getMemory();
     void getRegister();
-    void Run_Instruction();
-    void LoadNewProgram();
-    void RunAll();
-    void RunStepByStep();
+    void runInstruction();
+    void loadNewProgram();
+    void runAll();
+    void runStepByStep();
 };
 
 #endif // MACHINE_H
