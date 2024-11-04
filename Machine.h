@@ -15,6 +15,7 @@ public:
     void getMemory();
     void getRegister();
     void runInstruction();
+    void showScreenOutput();
     void loadNewProgram();
     void runAll();
     void runStepByStep();
