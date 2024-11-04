@@ -30,15 +30,15 @@ int main() {
         if (choice == "1"){
             cout << "\nLoading a new program...\n";
             Machine newM;
-            newM.LoadNewProgram();
+            newM.loadNewProgram();
         }
         else if (choice == "2"){
             cout << "\nRunning program as a whole...\n";
-            m.RunAll();
+            m.runAll();
         }
         else if (choice == "3"){
             cout << "\nRunning program step by step...\n";
-            m.RunStepByStep();
+            m.runStepByStep();
         }
         else if (choice == "4"){
             cout << "\nExiting the program. Thank you for using our simulator!\n";
