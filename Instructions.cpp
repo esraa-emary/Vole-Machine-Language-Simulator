@@ -354,9 +354,42 @@ void Instructions::halt() {
 
 void Instructions::conditionalJumpGreater(const string &address1, int XY, Register &reg, Memory &mem,
                                           vector<string> &instructions, int currentI) {
-    int value1 = stoi(reg.getRegister(address1), nullptr, 16);
-    int value2 = stoi(reg.getRegister("0"), nullptr, 16);
-    if (value1 == value2) {
+    string value1 = reg.getRegister(address1);
+    // Convert the hexadecimal value to decimal
+    int num1 = stoi(value1, nullptr, 16);
+    // Create a 16-bit bitset from the decimal value
+    bitset<16> bits(num1);
+    // Convert the bitset to a binary string representation
+    string binaryString = bits.to_string();
+    binaryString = twoComplement(binaryString);
+
+    string value2 = reg.getRegister("0");
+    // Convert the hexadecimal value to decimal
+    int num2 = stoi(value2, nullptr, 16);
+    // Create a 16-bit bitset from the decimal value
+    bitset<16> bits2(num2);
+    // Convert the bitset to a binary string representation
+    string binaryString2 = bits2.to_string();
+    binaryString2 = twoComplement(binaryString2);
+
+    bool flag = false;
+    for (int i = 0; i < binaryString2.size(); ++i) {
+        if (i == 0){
+            if (binaryString2[i] == '0' && binaryString[i] != binaryString2[i]){
+                flag = true;
+                break;
+            }
+            if (binaryString2[i] == '1' && binaryString[i] != binaryString2[i]){
+                break;
+            }
+        }
+        else if (binaryString2[i] > binaryString[i]){
+            flag = true;
+            break;
+        }
+    }
+
+    if (flag) {
         string ins = mem.getMemory(XY) + mem.getMemory(XY + 1);
         instructions.insert(instructions.begin() + currentI + 1, ins);
     } else return;
