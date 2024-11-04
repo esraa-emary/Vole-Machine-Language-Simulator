@@ -12,31 +12,31 @@ private:
     bool halted = false;
     int programCounter = 0;
 public:
-    void Read_From_File();
-    vector<string> Get_Instructions();
+    void readFromFile();
+    vector<string> getInstructions();
     Instructions(){}
 
-    string OneComplement(string binary);
+    string oneComplement(string binary);
     string twoComplement(string binary);
     string decimalToBinary(int Dec_Number);
-    int Hexa_To_Decimal(string Hex_Number);
-    string Decimal_To_Hexa (int Dec_Number);
+    int hexaToDecimal(string Hex_Number);
+    string decimalToHexa (int Dec_Number);
     int binaryToDecimal(string binNumber);
     double binaryToDecimalFraction(const string& binaryFraction);
     string fractionDecimalToBinary(double decimalFraction, int precision);
 
-    void Move(string address1, string address2, Register &reg);
-    void Load_To_Register(string address1, string value, Register &reg);
-    void Load_From_Memory_To_Register(string address4, string address1, Register &reg, Memory &mem);
-    void Store(string address1, string address2, Register & reg, Memory & mem);
+    void move(string address1, string address2, Register &reg);
+    void loadToRegister(string address1, string value, Register &reg);
+    void loadFromMemoryToRegister(string address4, string address1, Register &reg, Memory &mem);
+    void store(string address1, string address2, Register & reg, Memory & mem);
 
-    string AddingBinaryNumbers(string binary1, string binary2);
-    void AddingTwoComplement(string& address1, string& address2, string& address3, Register& reg);
-    string ImplicitNormalization(double Dec_Number);
+    string addingBinaryNumbers(string binary1, string binary2);
+    void addingTwoComplement(string& address1, string& address2, string& address3, Register& reg);
+    string implicitNormalization(double Dec_Number);
     double encodeImplicitNormalization(string hexNumber);
-    void AddingFloatingNumber(string& address1, string& address2, string& address3, Register& reg);
-    void OrBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
-    void AndBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
+    void addingFloatingNumber(string& address1, string& address2, string& address3, Register& reg);
+    void orBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
+    void andBitwiseOperation(string& address1, string& address2, string& address3, Register& reg);
 
     void halt();
     bool getHalted(){return halted;}
