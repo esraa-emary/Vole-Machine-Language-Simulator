@@ -7,26 +7,26 @@
 
 using namespace std;
 
-void Machine::LoadNewProgram() {
-    Run_Instruction();
+void Machine::loadNewProgram() {
+    runInstruction();
     getRegister();
     getMemory();
 }
 
-void Machine::RunAll() {
-    Run_Instruction();
+void Machine::runAll() {
+    runInstruction();
     cout << "\nFinal Register State:\n";
     getRegister();
     cout << "Final Memory State:\n";
     getMemory();
 }
 
-void Machine::RunStepByStep() {
+void Machine::runStepByStep() {
     Memory mem;
     Register reg;
     Instructions inst;
-    inst.Read_From_File();
-    vector<string> instructions = inst.Get_Instructions();
+    inst.readFromFile();
+    vector<string> instructions = inst.getInstructions();
     bool Flag = inst.getHalted();
 
     for (int i = 0; i < instructions.size() && !Flag; ++i) {
@@ -38,22 +38,22 @@ void Machine::RunStepByStep() {
         int X, XY;
 
         if (instructions[i][0] == '1') {
-            inst.Load_From_Memory_To_Register(address4, address1, reg, mem);
+            inst.loadFromMemoryToRegister(address4, address1, reg, mem);
         } else if (instructions[i][0] == '2') {
             string value = instructions[i].substr(2, 2);
-            inst.Load_To_Register(address1, value, reg);
+            inst.loadToRegister(address1, value, reg);
         } else if (instructions[i][0] == '3') {
-            inst.Store(address1, address4, reg, mem);
+            inst.store(address1, address4, reg, mem);
         } else if (instructions[i][0] == '4') {
-            inst.Move(address2, address3, reg);
+            inst.move(address2, address3, reg);
         } else if (instructions[i][0] == '5') {
-            inst.AddingTwoComplement(address1, address2, address3, reg);
+            inst.addingTwoComplement(address1, address2, address3, reg);
         } else if (instructions[i][0] == '6') {
-            inst.AddingFloatingNumber(address1, address2, address3, reg);
+            inst.addingFloatingNumber(address1, address2, address3, reg);
         } else if (instructions[i][0] == '7') {
-            inst.OrBitwiseOperation(address1, address2, address3, reg);
+            inst.orBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '8') {
-            inst.AndBitwiseOperation(address1, address2, address3, reg);
+            inst.andBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '9') {
             inst.exclusiveOr(address1, address2, address3, reg);
         } else if (instructions[i][0] == 'A' || instructions[i][0] == 'a') {
@@ -80,12 +80,12 @@ void Machine::RunStepByStep() {
     }
 }
 
-void Machine::Run_Instruction() {
+void Machine::runInstruction() {
     Memory mem;
     Register reg;
     Instructions inst;
-    inst.Read_From_File();
-    vector<string> instructions = inst.Get_Instructions();
+    inst.readFromFile();
+    vector<string> instructions = inst.getInstructions();
     bool Flag = inst.getHalted();
 
     for (int i = 0; i < instructions.size() && !Flag; ++i) {
@@ -97,22 +97,22 @@ void Machine::Run_Instruction() {
         int X, XY;
 
         if (instructions[i][0] == '1') {
-            inst.Load_From_Memory_To_Register(address4, address1, reg, mem);
+            inst.loadFromMemoryToRegister(address4, address1, reg, mem);
         } else if (instructions[i][0] == '2') {
             string value = instructions[i].substr(2, 2);
-            inst.Load_To_Register(address1, value, reg);
+            inst.loadToRegister(address1, value, reg);
         } else if (instructions[i][0] == '3') {
-            inst.Store(address1, address4, reg, mem);
+            inst.store(address1, address4, reg, mem);
         } else if (instructions[i][0] == '4') {
-            inst.Move(address2, address3, reg);
+            inst.move(address2, address3, reg);
         } else if (instructions[i][0] == '5') {
-            inst.AddingTwoComplement(address1, address2, address3, reg);
+            inst.addingTwoComplement(address1, address2, address3, reg);
         } else if (instructions[i][0] == '6') {
-            inst.AddingFloatingNumber(address1, address2, address3, reg);
+            inst.addingFloatingNumber(address1, address2, address3, reg);
         } else if (instructions[i][0] == '7') {
-            inst.OrBitwiseOperation(address1, address2, address3, reg);
+            inst.orBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '8') {
-            inst.AndBitwiseOperation(address1, address2, address3, reg);
+            inst.andBitwiseOperation(address1, address2, address3, reg);
         } else if (instructions[i][0] == '9') {
             inst.exclusiveOr(address1, address2, address3, reg);
         } else if (instructions[i][0] == 'A' || instructions[i][0] == 'a') {
