@@ -6,6 +6,8 @@ using namespace std;
 int main() {
     cout << "Welcome to Our Vole Machine Simulator Program!\n";
     Machine m;
+    Memory mem;
+    Register reg;
     string choice;
     bool running = true;
 
@@ -30,15 +32,17 @@ int main() {
         if (choice == "1"){
             cout << "\nLoading a new program...\n";
             Machine newM;
-            newM.loadNewProgram();
+            Memory newMem;
+            Register newReg;
+            newM.loadNewProgram(newMem, newReg);
         }
         else if (choice == "2"){
             cout << "\nRunning program as a whole...\n";
-            m.runAll();
+            m.runAll(mem, reg);
         }
         else if (choice == "3"){
             cout << "\nRunning program step by step...\n";
-            m.runStepByStep();
+            m.runStepByStep(mem, reg);
         }
         else if (choice == "4"){
             cout << "\nExiting the program. Thank you for using our simulator!\n";
