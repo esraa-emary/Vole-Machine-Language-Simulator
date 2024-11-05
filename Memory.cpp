@@ -58,7 +58,7 @@ bool Memory::checkProgramCounter(int programCounter, vector<string> &instruction
     return programCounter + (instructions.size() * 2) < 256;          // Check if the program fits in the memory.
 }
 
-void Memory::programCounterIncrement(vector<std::string> &instructions) {
+void Memory::programCounterIncrement(vector<string> &instructions) {
     int numberOfAttempts = 3;
     int proCou;
     while (true) {
