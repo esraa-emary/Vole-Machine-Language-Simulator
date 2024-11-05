@@ -8,136 +8,198 @@
 using namespace std;
 
 void Machine::showScreenOutput() {
-    cout << "What shows on screen: " << machineMemory.getMemory(0) << endl;
+    string hex = machineMemory.getMemory(0);
+    cout << "\nWhat shows on screen in Hexa: " << hex << endl;
+    std::string ascii;
+
+    // Check if the hex string length is even
+    if (hex.length() % 2 != 0) {
+        throw std::invalid_argument("Hex string length must be even.");
+    }
+
+    for (size_t i = 0; i < hex.length(); i += 2) {
+        // Convert each two-character hex pair to a byte (8 bits)
+        std::string byteString = hex.substr(i, 2);
+        char byte = static_cast<char>(std::stoi(byteString, nullptr, 16));
+        ascii += byte;
+    }
+
+    // Print the converted ASCII string
+    cout << "What shows on screen in Ascii: " << ascii << endl << endl;
 }
 
-
-void Machine::loadNewProgram() {
-    runInstruction();
+void Machine::loadNewProgram(Memory& newMem, Register& newReg) {
+    runInstruction(newMem,newReg);
     getRegister();
     getMemory();
 }
 
-void Machine::runAll() {
-    runInstruction();
-    cout << "\nFinal Register State:\n";
+void Machine::runAll(Memory& mem, Register& reg) {
+    runInstruction(mem, reg);
+    cout << "\nFinal Register :\n";
     getRegister();
-    cout << "Final Memory State:\n";
+    cout << "Final Memory :\n";
     getMemory();
-    showScreenOutput(); // Display what shows on screen
 }
 
-void Machine::runStepByStep() {
-    Memory mem;
-    Register reg;
+void Machine::runStepByStep(Memory& mem, Register& reg) {
+    int i = 0;
     Instructions inst;
     inst.readFromFile();
     vector<string> instructions = inst.getInstructions();
-    bool Flag = inst.getHalted();
+    mem.programCounterIncrement(instructions);
+    int programCounter = mem.getProgramCounter();
+    int nextCounter = programCounter;
+    bool flag = inst.getHalted();
 
-    for (int i = 0; i < instructions.size() && !Flag; ++i) {
-        string instruction = instructions[i];
-        string address1 = string(1, instructions[i][1]);
-        string address2 = string(1, instructions[i][2]);
-        string address3 = string(1, instructions[i][3]);
-        string address4 = instructions[i].substr(2, 2);
+    machineMemory = mem;
+    machineRegister = reg;
+    cout << "\nInitial Register :\n";
+    getRegister();
+    cout << "Initial Memory :\n";
+    getMemory();
+
+    while (programCounter <= 255 && !flag) {
+        string instruction = mem.getInstruction();
+        string num = instruction.substr(0, 1);
+        string address1 = instruction.substr(1, 1);
+        string address2 = instruction.substr(2, 1);
+        string address3 = instruction.substr(3, 1);
+        string address4 = instruction.substr(2, 2);
+        bool ff = false;
         int X, XY;
 
-        if (instructions[i][0] == '1') {
+        if (instruction.substr(0, 2) != "00") {
+            i++;
+            if (i > 1) {
+                cout << "\nStep " << i - 1 << " completed. \nCurrent Register State:\n";
+                getRegister();
+                cout << "Current Memory State:\n";
+                getMemory();
+            }
+        }
+
+        if (num == "1") {
             inst.loadFromMemoryToRegister(address4, address1, reg, mem);
-        } else if (instructions[i][0] == '2') {
-            string value = instructions[i].substr(2, 2);
-            inst.loadToRegister(address1, value, reg);
-        } else if (instructions[i][0] == '3') {
+        } else if (num == "2") {
+            inst.loadToRegister(address1, address4, reg);
+        } else if (num == "3") {
             inst.store(address1, address4, reg, mem);
-        } else if (instructions[i][0] == '4') {
+            machineMemory = mem;
+            machineRegister = reg;
+            if (address4 == "00") showScreenOutput(); // Display what shows on screen
+        } else if (num == "4") {
             inst.move(address2, address3, reg);
-        } else if (instructions[i][0] == '5') {
+        } else if (num == "5") {
             inst.addingTwoComplement(address1, address2, address3, reg);
-        } else if (instructions[i][0] == '6') {
+        } else if (num == "6") {
             inst.addingFloatingNumber(address1, address2, address3, reg);
-        } else if (instructions[i][0] == '7') {
+        } else if (num == "7") {
             inst.orBitwiseOperation(address1, address2, address3, reg);
-        } else if (instructions[i][0] == '8') {
+        } else if (num == "8") {
             inst.andBitwiseOperation(address1, address2, address3, reg);
-        } else if (instructions[i][0] == '9') {
+        } else if (num == "9") {
             inst.exclusiveOr(address1, address2, address3, reg);
-        } else if (instructions[i][0] == 'A' || instructions[i][0] == 'a') {
-            X = stoi(instruction.substr(2, 1), nullptr, 16);
+        } else if (num == "A" || num == "a") {
+            X = stoi(address4, nullptr, 16);
             inst.rotateRight(address1, X, reg);
-        }  else if (instructions[i][0] == 'B' || instructions[i][0] == 'b') {
-            XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
-            inst.conditionalJump(address1, XY, reg, mem, instructions, i);
-        } else if (instructions[i][0] == 'C' || instructions[i][0] == 'c') {
+        } else if (num == "B" || num == "b") {
+            XY = stoi(address4, nullptr, 16);
+            programCounter = inst.conditionalJump(address1, XY, reg, mem, programCounter, ff);
+            if (ff) programCounter -= 2;
+        } else if (num == "C" || num == "c") {
             inst.halt();
-        }else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
-            XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
-            inst.conditionalJumpGreater(address1, XY, reg, mem, instructions, i);
+        } else if (num == "D" || num == "d") {
+            XY = stoi(address4, nullptr, 16);
+            programCounter = inst.conditionalJumpGreater(address1, XY, reg, mem, programCounter, ff);
+            if (ff) programCounter -= 2;
         }
 
         // Display register and memory state after each instruction
         machineMemory = mem;
         machineRegister = reg;
-        cout << "\nStep " << i + 1 << " completed. \nCurrent Register State:\n";
-        getRegister();
-        cout << "Current Memory State:\n";
-        getMemory();
-        showScreenOutput(); // Display what shows on screen
-        Flag = inst.getHalted();
+        mem.setProgramCounter(programCounter + 2);
+        programCounter = mem.getProgramCounter();
+        flag = inst.getHalted();
     }
+    cout << "\nFinal Register :\n";
+    getRegister();
+    cout << "Final Memory :\n";
+    getMemory();
+    mem.setProgramCounter(nextCounter + (i * 2));
 }
 
-void Machine::runInstruction() {
-    Memory mem;
-    Register reg;
+void Machine::runInstruction(Memory& mem, Register& reg) {
+    int i = 0;
     Instructions inst;
     inst.readFromFile();
     vector<string> instructions = inst.getInstructions();
-    bool Flag = inst.getHalted();
+    mem.programCounterIncrement(instructions);
+    int programCounter = mem.getProgramCounter();
+    int nextCounter = programCounter;
+    bool flag = inst.getHalted();
 
-    for (int i = 0; i < instructions.size() && !Flag; ++i) {
-        string instruction = instructions[i];
-        string address1 = string(1, instructions[i][1]);
-        string address2 = string(1, instructions[i][2]);
-        string address3 = string(1, instructions[i][3]);
-        string address4 = instructions[i].substr(2, 2);
+    machineMemory = mem;
+    machineRegister = reg;
+    cout << "\nInitial Register :\n";
+    getRegister();
+    cout << "Initial Memory :\n";
+    getMemory();
+
+    while (programCounter < 253 && !flag) {
+        string instruction = mem.getInstruction();
+        string num = instruction.substr(0, 1);
+        string address1 = instruction.substr(1, 1);
+        string address2 = instruction.substr(2, 1);
+        string address3 = instruction.substr(3, 1);
+        string address4 = instruction.substr(2, 2);
+        bool ff = false;
         int X, XY;
 
-        if (instructions[i][0] == '1') {
+        if (num == "1") {
             inst.loadFromMemoryToRegister(address4, address1, reg, mem);
-        } else if (instructions[i][0] == '2') {
-            string value = instructions[i].substr(2, 2);
-            inst.loadToRegister(address1, value, reg);
-        } else if (instructions[i][0] == '3') {
+        } else if (num == "2") {
+            inst.loadToRegister(address1, address4, reg);
+        } else if (num == "3") {
             inst.store(address1, address4, reg, mem);
-        } else if (instructions[i][0] == '4') {
+            machineMemory = mem;
+            machineRegister = reg;
+            if (address4 == "00") showScreenOutput(); // Display what shows on screen
+        } else if (num == "4") {
             inst.move(address2, address3, reg);
-        } else if (instructions[i][0] == '5') {
+        } else if (num == "5") {
             inst.addingTwoComplement(address1, address2, address3, reg);
-        } else if (instructions[i][0] == '6') {
+        } else if (num == "6") {
             inst.addingFloatingNumber(address1, address2, address3, reg);
-        } else if (instructions[i][0] == '7') {
+        } else if (num == "7") {
             inst.orBitwiseOperation(address1, address2, address3, reg);
-        } else if (instructions[i][0] == '8') {
+        } else if (num == "8") {
             inst.andBitwiseOperation(address1, address2, address3, reg);
-        } else if (instructions[i][0] == '9') {
+        } else if (num == "9") {
             inst.exclusiveOr(address1, address2, address3, reg);
-        } else if (instructions[i][0] == 'A' || instructions[i][0] == 'a') {
-            X = stoi(instructions[i].substr(2, 2), nullptr, 16);
+        } else if (num == "A" || num == "a") {
+            X = stoi(address4, nullptr, 16);
             inst.rotateRight(address1, X, reg);
-        } else if (instructions[i][0] == 'B' || instructions[i][0] == 'b') {
-            XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
-            inst.conditionalJump(address1, XY, reg, mem, instructions, i);
-        } else if (instructions[i][0] == 'C' || instructions[i][0] == 'c') {
+        } else if (num == "B" || num == "b") {
+            XY = stoi(address4, nullptr, 16);
+            programCounter = inst.conditionalJump(address1, XY, reg, mem, programCounter, ff);
+            if (ff) programCounter -= 2;
+        } else if (num == "C" || num == "c") {
             inst.halt();
-        }else if (instructions[i][0] == 'D' || instructions[i][0] == 'd') {
-            XY = stoi(instructions[i].substr(2, 2), nullptr, 16);
-            inst.conditionalJumpGreater(address1, XY, reg, mem, instructions, i);
+        } else if (num == "D" || num == "d") {
+            XY = stoi(address4, nullptr, 16);
+            programCounter = inst.conditionalJumpGreater(address1, XY, reg, mem, programCounter, ff);
+            if (ff) programCounter -= 2;
         }
+
+        // Display register and memory state after each instruction
         machineMemory = mem;
         machineRegister = reg;
-        Flag = inst.getHalted();
+        mem.setProgramCounter(programCounter + 2);
+        programCounter = mem.getProgramCounter();
+        flag = inst.getHalted();
     }
+    mem.setProgramCounter(nextCounter + (i * 2));
 }
 
 void Machine::getMemory() {
