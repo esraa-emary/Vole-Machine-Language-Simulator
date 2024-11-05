@@ -338,22 +338,62 @@ void Instructions::rotateRight(const string &address1, int X, Register &reg) {
     reg.setRegister(address1, resultAfter);
 }
 
-void Instructions::conditionalJump(const string &address1, int XY, Register &reg, Memory &mem,
-                                   vector<string> &instructions, int currentI) {
+int Instructions::conditionalJump(const string &address1, int XY, Register &reg, Memory &mem, int& currentProgramCounter,bool& ff) {
     int value1 = stoi(reg.getRegister(address1), nullptr, 16);
     int value2 = stoi(reg.getRegister("0"), nullptr, 16);
     if (value1 == value2) {
-        string ins = mem.getMemory(XY) + mem.getMemory(XY + 1);
-        instructions.insert(instructions.begin() + currentI + 1, ins);
-    } else return;
+        currentProgramCounter = XY;
+        ff = true;
+        return currentProgramCounter;
+    } else {
+        ff = false;
+        return currentProgramCounter;
+    }
 }
 
 void Instructions::halt() {
     halted = true;  // Signal to halt execution in the Machine class
 }
 
-void Instructions::conditionalJumpGreater(const string &address1, int XY, Register &reg, Memory &mem,
-                                          vector<string> &instructions, int currentI) {
+
+bool Instructions::compareTwosComplement(const std::string &bin1, const std::string &bin2) {
+    // Check if they are of the same length
+    if (bin1.length() != bin2.length()) {
+        throw std::invalid_argument("Binary numbers must be of the same length.");
+    }
+
+    // Check the sign bit (first bit) of each binary number
+    bool isNegative1 = (bin1[0] == '1');
+    bool isNegative2 = (bin2[0] == '1');
+
+    // Case 1: Different signs
+    if (isNegative1 && !isNegative2) {
+        return -1; // bin1 is negative, bin2 is positive => bin2 is greater
+    }
+    if (!isNegative1 && isNegative2) {
+        return 1; // bin1 is positive, bin2 is negative => bin1 is greater
+    }
+
+    // Case 2: Same signs - Direct comparison for same-sign numbers
+    if (isNegative1 && isNegative2) {
+        // Both are negative - Reverse comparison
+        for (size_t i = 0; i < bin1.length(); ++i) {
+            if (bin1[i] > bin2[i]) return -1; // bin1 is more negative
+            if (bin1[i] < bin2[i]) return 1;  // bin2 is more negative
+        }
+    } else {
+        // Both are positive - Regular comparison
+        for (size_t i = 0; i < bin1.length(); ++i) {
+            if (bin1[i] > bin2[i]) return true; // bin1 is greater
+            if (bin1[i] < bin2[i]) return false; // bin2 is greater
+        }
+    }
+
+    return false; // bin1 and bin2 are equal
+}
+
+int Instructions::conditionalJumpGreater(const string &address1, int XY, Register &reg, Memory &mem,
+                                          int& currentProgramCounter,bool& ff) {
     string value1 = reg.getRegister(address1);
     // Convert the hexadecimal value to decimal
     int num1 = stoi(value1, nullptr, 16);
@@ -361,7 +401,6 @@ void Instructions::conditionalJumpGreater(const string &address1, int XY, Regist
     bitset<16> bits(num1);
     // Convert the bitset to a binary string representation
     string binaryString = bits.to_string();
-    binaryString = twoComplement(binaryString);
 
     string value2 = reg.getRegister("0");
     // Convert the hexadecimal value to decimal
@@ -370,27 +409,14 @@ void Instructions::conditionalJumpGreater(const string &address1, int XY, Regist
     bitset<16> bits2(num2);
     // Convert the bitset to a binary string representation
     string binaryString2 = bits2.to_string();
-    binaryString2 = twoComplement(binaryString2);
 
-    bool flag = false;
-    for (int i = 0; i < binaryString2.size(); ++i) {
-        if (i == 0){
-            if (binaryString2[i] == '0' && binaryString[i] != binaryString2[i]){
-                flag = true;
-                break;
-            }
-            if (binaryString2[i] == '1' && binaryString[i] != binaryString2[i]){
-                break;
-            }
-        }
-        else if (binaryString2[i] > binaryString[i]){
-            flag = true;
-            break;
-        }
-    }
-
+    bool flag =  compareTwosComplement(binaryString,binaryString2);
     if (flag) {
-        string ins = mem.getMemory(XY) + mem.getMemory(XY + 1);
-        instructions.insert(instructions.begin() + currentI + 1, ins);
-    } else return;
+        ff = true;
+        currentProgramCounter = XY;
+        return currentProgramCounter;
+    } else {
+        ff = false;
+        return currentProgramCounter;
+    }
 }
