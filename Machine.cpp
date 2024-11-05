@@ -146,7 +146,7 @@ void Machine::runInstruction(Memory& mem, Register& reg) {
     cout << "Initial Memory :\n";
     getMemory();
 
-    while (programCounter < 253 && !flag) {
+    while (programCounter <= 255 && !flag) {
         string instruction = mem.getInstruction();
         string num = instruction.substr(0, 1);
         string address1 = instruction.substr(1, 1);
