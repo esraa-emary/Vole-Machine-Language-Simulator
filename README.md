@@ -21,11 +21,12 @@
 9 --> RST --> **EXCLUSIVE OR** the bit patterns in registers S and T and place the result in register R. <br>
 A --> R0X --> **ROTATE** the bit pattern in register R one bit to the right X times. Each time place the bit that started at the low-order end at the high-order end. <br>
 B --> RXY --> **JUMP** to the location in the memory cell at address XY if the bit pattern in register R is equal to the bit pattern in register number 0. Otherwise, continue with the normal sequence of execution (The jump is implemented by copying XY into the program counter during the execute phase.) <br>
-C --> 000 --> **HALT** execution.
+C --> 000 --> **HALT** execution. <br>
+D --> RXY --> **JUMP** to instruction in RAM cell XY if the content of register R is greater than (>) the content of register 0. Data is interpreted as integers in two's complement notation.
 
 ## Authors:
-- Esraa Emary Abd El-Salam (20230054)
-- Mohammed Atef Abd El-Kader (20231143)
-- Nagham Wael Mohamed El-Sayed (20231189)
+- Esraa Emary Abd El-Salam - (20230054)
+- Mohammed Atef Abd El-Kader - (20231143)
+- Nagham Wael Mohamed El-Sayed - (20231189)
 
-## Version: 5.0
+## Version: 6.0
