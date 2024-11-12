@@ -6,7 +6,7 @@
 ## Machine Components:
 - **Register:** 16 register storage space for units of memory that are used to transfer data for immediate use.
 - **Memory:** 256 cell to store data.
-- **Instructions:** appling some operations in the machine.
+- **Instructions:** applying some operations in the machine.
 - **Machine:** run the whole program and link it together.
 
 ## Machine Language:
@@ -35,4 +35,4 @@ If you'd like to contribute to this repository, feel free to fork the project an
 ## License:
 This project is licensed under the MIT License – see the [LICENSE](https://github.com/esraa-emary/Vole-Machine-Language-Simulator/blob/main/LICENSE) file for details.
 
-## Version: 6.0
+## Version: 7.0
