@@ -26,6 +26,11 @@
 | C      | 000    | **HALT** execution. |
 | D      | RXY    | **JUMP** to instruction in RAM cell XY if the content of register R is greater than (>) the content of register 0. Data is interpreted as integers in two's complement notation. |
 
+## Chatbot for Vole Machine Instructions:
+Explore an interactive chatbot that explains Vole machine instructions in a user-friendly manner. This chatbot can help you better understand the opcode functionalities and how to use them effectively.
+
+You can find the chatbot repository here: [Vole Machine ChatBot](https://github.com/NaghamProgrammer/Vole-Machine-ChatBot).
+
 ## Contributing:
 If you'd like to contribute to this repository, feel free to fork the project and create a pull request with your changes. Make sure to follow the coding standards and ensure your changes are well-documented.
 
