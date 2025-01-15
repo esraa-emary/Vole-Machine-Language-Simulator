@@ -36,9 +36,9 @@ If you'd like to contribute to this repository, feel free to fork the project an
 
 
 ## Authors:
-- [Esraa Emary Abd El-Salam](https://www.linkedin.com/in/esraa-emary-b372b8303/) - (20230054)
-- [Mohammed Atef Abd El-Kader](https://www.linkedin.com/in/mohammed-atef-b0a408299/) - (20231143)
-- [Nagham Wael Mohamed El-Sayed](https://www.linkedin.com/in/nagham-wael-5aa70a318/) - (20231189)
+- **Esraa Emary Abd El-Salam**: [GitHub](https://github.com/esraa-emary) - [LinkedIn](https://www.linkedin.com/in/esraa-emary-b372b8303/)
+- **Mohammed Atef Abd El-Kader**: [GitHub](https://github.com/Mohammed-3tef) - [LinkedIn](https://www.linkedin.com/in/mohammed-atef-b0a408299/)
+- **Nagham Wael Mohammed El-Sayed**: [GitHub](https://github.com/NaghamProgrammer) - [LinkedIn](https://www.linkedin.com/in/nagham-wael-5aa70a318/)
 
 ## License:
 This project is licensed under the MIT License – see the [LICENSE](https://github.com/esraa-emary/Vole-Machine-Language-Simulator/blob/main/LICENSE) file for details.
