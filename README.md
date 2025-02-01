@@ -34,6 +34,8 @@ You can find the chatbot repository here: [Vole Machine ChatBot](https://github.
 ## Contributing:
 If you'd like to contribute to this repository, feel free to fork the project and create a pull request with your changes. Make sure to follow the coding standards and ensure your changes are well-documented.
 
+## GUI Version  
+Looking for a graphical interface? Check out the **Vole Machine Simulator GUI Version**: [GUI Version Repository.](https://github.com/esraa-emary/Vole-Machine-Language-Simulator-GUI)  
 
 ## Authors:
 - **Esraa Emary Abd El-Salam**: [GitHub](https://github.com/esraa-emary) - [LinkedIn](https://www.linkedin.com/in/esraa-emary-b372b8303/)
